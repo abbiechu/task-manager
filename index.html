@@ -4,17 +4,36 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#f4f2ec" />
+<meta name="description" content="以溫柔步調管理每日待辦、課表空堂與個人里程碑。" />
 <title>日常小島｜行程與任務</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f4f2ec;--paper:#fffefa;--ink:#343c3a;--muted:#8b918b;--line:#e9e6de;--sage:#84978b;--sage-light:#e5ebe5;--clay:#c98c76;--clay-light:#f5e6df;--blue:#8ea6b0;--blue-light:#e7eef0;--yellow:#d4b875;--yellow-light:#f5f0df;--shadow:0 10px 30px rgba(59,65,57,.06);--radius:22px}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:'DM Sans','Noto Sans TC',sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;border:0;color:inherit}.app{max-width:1180px;margin:0 auto;padding:24px 28px 60px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}.brand{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:800;letter-spacing:.02em}.brand-icon{width:39px;height:39px;border-radius:14px;background:var(--sage-light);display:grid;place-items:center;font-size:21px}.brand small{display:block;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.08em;margin-top:1px}.profile{display:flex;align-items:center;gap:10px}.coin{background:#fffefa;border:1px solid var(--line);border-radius:99px;padding:9px 14px;font-size:13px;font-weight:700;color:#927b43}.avatar{width:39px;height:39px;background:#eee5dc;border-radius:50%;display:grid;place-items:center;font-size:21px}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,.9fr);gap:22px}.greeting{display:flex;justify-content:space-between;align-items:end;margin:6px 0 20px}.greeting .date{color:var(--muted);font-size:13px;margin-bottom:7px}.greeting h1{font-size:29px;letter-spacing:-.03em;margin:0}.greeting p{color:var(--muted);font-size:14px;margin:8px 0 0}.date-pill{padding:9px 12px;border-radius:12px;background:var(--paper);font-size:12px;color:var(--muted)}.card{background:var(--paper);border:1px solid rgba(230,226,217,.8);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.card-head h2{font-size:16px;margin:0;font-weight:700}.subtle{font-size:12px;color:var(--muted)}.today-card{padding:0;overflow:hidden}.today-banner{padding:20px 22px;background:linear-gradient(110deg,#e7ece5,#f1eee6);display:flex;justify-content:space-between;align-items:center}.today-banner strong{font-size:14px}.today-banner small{display:block;color:#777f77;font-size:12px;margin-top:4px}.progress-ring{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--sage) 0deg,#cdd6cd 0);position:relative}.progress-ring:after{content:'';position:absolute;inset:4px;border-radius:50%;background:#e9ede7}.progress-ring span{position:relative;z-index:1;font-size:10px;font-weight:700}.task-list{padding:7px 22px 6px}.task{display:grid;grid-template-columns:25px 1fr auto;gap:12px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0}.check{width:22px;height:22px;border-radius:8px;border:1.5px solid #ccd1c9;background:transparent;display:grid;place-items:center;color:white;transition:.2s}.task.done .check{background:var(--sage);border-color:var(--sage)}.check svg{width:13px;height:13px;opacity:0}.task.done .check svg{opacity:1}.task-title{font-size:14px;font-weight:600}.task.done .task-title{text-decoration:line-through;color:#a2a69f}.task-meta{font-size:11px;color:var(--muted);margin-top:5px;display:flex;gap:8px}.tag{background:#f1f0eb;padding:3px 8px;border-radius:99px;color:#777f77}.points{font-size:11px;color:#a3894f;font-weight:700;white-space:nowrap}.add-row{padding:0 22px 19px}.add-btn{width:100%;padding:12px;border-radius:13px;border:1px dashed #d7d9d0;background:transparent;color:#78877b;font-weight:600;font-size:13px}.add-btn:hover{background:#f4f6f2}.schedule{margin-top:18px}.course{display:flex;gap:14px;position:relative;padding:7px 0 17px}.course:not(:last-child):after{content:'';position:absolute;left:42px;top:34px;bottom:0;width:1px;background:var(--line)}.time{width:42px;color:var(--muted);font-size:11px;padding-top:3px}.course-block{flex:1;border-radius:13px;background:var(--blue-light);padding:11px 13px;display:flex;justify-content:space-between;align-items:center}.course:nth-of-type(3) .course-block{background:var(--clay-light)}.course-name{font-size:13px;font-weight:600}.course-sub{font-size:11px;color:var(--muted);margin-top:4px}.free-time{margin:1px 0 16px 42px;padding:11px 13px;border:1px dashed #cfd8d0;border-radius:13px;background:#f6f8f4;color:#6e8575;font-size:12px;display:flex;justify-content:space-between;align-items:center}.recommend{border:0;background:var(--sage);color:white;padding:7px 10px;border-radius:9px;font-size:11px;font-weight:600}.week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}.day-cell{text-align:center;padding:10px 3px;border-radius:13px;background:#f6f4ef}.day-cell b{display:block;font-size:12px}.day-cell span{display:block;font-size:10px;color:var(--muted);margin-top:5px}.day-cell.active{background:var(--sage-light);color:#607567}.day-cell.active span{color:#607567}.right-col{display:flex;flex-direction:column;gap:18px}.streak-card{background:#e7ece6;border-color:#e7ece6;padding:21px}.streak-top{display:flex;justify-content:space-between}.streak-num{font-size:32px;font-weight:700;line-height:1}.streak-num small{font-size:13px;color:#728076;font-weight:500}.streak-flame{font-size:27px}.streak-copy{font-size:12px;color:#737f74;margin-top:6px}.week-dots{display:flex;justify-content:space-between;margin-top:19px}.week-dot{text-align:center;color:#778078;font-size:10px}.dot{width:25px;height:25px;border-radius:50%;background:#d6ded6;margin:0 auto 6px;display:grid;place-items:center;font-size:11px}.dot.done{background:var(--sage);color:#fff}.dot.today{outline:2px solid #aabbad;outline-offset:2px}.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fffefa;border:1px solid var(--line);border-radius:16px;padding:14px}.stat-icon{font-size:18px}.stat strong{display:block;font-size:20px;margin-top:9px}.stat span{font-size:11px;color:var(--muted)}.island-card{overflow:hidden;padding:0}.island-head{padding:18px 20px 0;display:flex;justify-content:space-between;align-items:center}.island-head h2{font-size:15px;margin:0}.edit{background:none;font-size:12px;color:#758678}.island-scene{margin:15px 15px 0;height:132px;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(#e3ebea 0 56%,#d7e0d2 56% 100%)}.sun{position:absolute;width:30px;height:30px;border-radius:50%;background:#eadab1;right:28px;top:20px;opacity:.9}.hill{position:absolute;bottom:-38px;border-radius:50%}.hill.one{width:200px;height:120px;background:#bfcebd;left:-20px}.hill.two{width:220px;height:130px;background:#b1c2b3;right:-14px;bottom:-54px}.island-pet{position:absolute;left:47%;bottom:28px;font-size:43px;filter:drop-shadow(0 4px 3px #71837633);animation:bob 3s ease-in-out infinite}.plant{position:absolute;right:22%;bottom:22px;font-size:27px}.scene-caption{padding:12px 20px 17px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between}.milestone{padding:20px}.milestone h2{font-size:15px;margin:0}.milestone-title{display:flex;justify-content:space-between;align-items:center}.milestone-title a{font-size:11px;color:#7e9184;cursor:pointer}.milestone-progress{margin-top:16px}.bar-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:8px}.bar-top span:last-child{color:var(--muted)}.bar{height:7px;background:#eeeae1;border-radius:99px;overflow:hidden}.bar i{height:100%;display:block;background:var(--sage);border-radius:99px}.reward{display:flex;align-items:center;gap:11px;margin-top:14px;padding:11px;background:#f6f4ee;border-radius:14px}.reward-icon{font-size:23px}.reward strong{font-size:12px}.reward small{display:block;font-size:10px;color:var(--muted);margin-top:3px}.reward .lock{margin-left:auto;font-size:11px;color:#999}.section-label{display:flex;align-items:center;gap:8px;color:#91968e;font-size:11px;text-transform:uppercase;letter-spacing:.12em;margin:22px 2px 11px}.section-label:after{content:'';height:1px;background:#e3e0d8;flex:1}.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#35413b;color:#fff;padding:12px 18px;border-radius:14px;box-shadow:0 10px 28px #28342e33;font-size:13px;transition:.3s;z-index:9}.toast.show{transform:translate(-50%,0);opacity:1}.confetti{position:fixed;inset:0;pointer-events:none;z-index:8;overflow:hidden}.confetti span{position:absolute;width:8px;height:13px;top:-20px;animation:fall 1.6s ease-in forwards}.modal-backdrop{position:fixed;inset:0;background:#2e373255;display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modal-backdrop.open{display:flex}.modal{width:min(480px,100%);background:var(--paper);border-radius:22px;padding:23px;box-shadow:0 20px 70px #17251e33}.modal-head{display:flex;justify-content:space-between;align-items:center}.modal h2{font-size:18px;margin:0}.close{background:#f0eee8;border-radius:9px;width:30px;height:30px}.modal p{font-size:13px;color:var(--muted);line-height:1.6}.upload-area{border:1px dashed #cfd4ca;border-radius:16px;background:#f8f8f4;text-align:center;padding:24px 15px;margin:15px 0;cursor:pointer}.upload-area .upload-icon{font-size:29px}.upload-area strong{display:block;font-size:13px;margin-top:9px}.upload-area span{display:block;font-size:11px;color:var(--muted);margin-top:6px}.input-row{margin:12px 0}.input-row label{display:block;font-size:12px;font-weight:600;margin-bottom:7px}.input-row input,.input-row select{width:100%;border:1px solid var(--line);background:white;padding:11px 12px;border-radius:11px;outline:0}.preview{background:#f6f4ef;border-radius:14px;padding:12px;margin:14px 0}.preview-row{display:grid;grid-template-columns:68px 1fr auto;gap:8px;padding:9px 4px;border-bottom:1px solid #e8e4da;font-size:12px}.preview-row:last-child{border-bottom:0}.preview-row b{font-weight:600}.preview-row span{color:var(--muted)}.primary{width:100%;padding:12px;border-radius:12px;background:var(--sage);color:white;font-weight:700;font-size:13px}.secondary{width:100%;padding:11px;border-radius:12px;background:#f0eee8;color:#626b63;font-weight:600;font-size:12px;margin-top:8px}.tabs{display:flex;gap:7px;background:#f1efe9;padding:4px;border-radius:12px;margin:16px 0}.tabs button{flex:1;padding:9px 7px;background:transparent;border-radius:9px;font-size:11px;color:#8a8f87}.tabs button.selected{background:#fffefa;box-shadow:0 2px 7px #303a3010;color:#48564c}.collection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.collect-item{text-align:center;border:1px solid var(--line);border-radius:14px;padding:13px 5px;background:#faf9f4}.collect-item .emoji{font-size:28px}.collect-item b{display:block;font-size:11px;margin-top:6px}.collect-item small{font-size:10px;color:var(--muted)}.collect-item.owned{background:#eaf0e9;border-color:#dbe5dc}.collect-item button{margin-top:7px;border-radius:8px;background:var(--sage);color:white;font-size:10px;padding:6px 9px}.collect-item button:disabled{background:#c6cec5}.habit-box{padding:14px;border-radius:15px;background:#f3f1e9;margin:15px 0}.habit-box strong{font-size:13px}.habit-box p{margin:5px 0 0;font-size:11px}.confetti span:nth-child(4n){background:#d4b875}.confetti span:nth-child(4n+1){background:#84978b}.confetti span:nth-child(4n+2){background:#c98c76}.confetti span:nth-child(4n+3){background:#8ea6b0}@keyframes fall{to{transform:translateY(105vh) rotate(700deg)}}@keyframes bob{50%{transform:translateY(-7px)}}
 @media(max-width:800px){.app{padding:16px 15px 42px}.layout{grid-template-columns:1fr;gap:17px}.right-col{display:grid;grid-template-columns:1fr 1fr;align-items:start}.island-card{grid-column:span 2}.greeting h1{font-size:25px}.card{border-radius:19px}.topbar{margin-bottom:18px}}
 @media(max-width:470px){.right-col{grid-template-columns:1fr}.island-card{grid-column:auto}.greeting{align-items:center}.date-pill{font-size:10px}.task-list{padding-left:16px;padding-right:16px}.add-row{padding-left:16px;padding-right:16px}.today-banner{padding:17px}.card{padding:18px}.today-card{padding:0}.week-dots{gap:3px}}
+
+/* Firebase authentication gate */
+.auth-gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 0%,#e4ebe4 0%,#f4f2ec 55%);display:grid;place-items:center;padding:22px}.auth-card{width:min(420px,100%);background:var(--paper);border:1px solid rgba(230,226,217,.9);border-radius:26px;padding:34px 30px;box-shadow:0 24px 70px rgba(59,65,57,.12);text-align:center}.auth-brand{display:flex;justify-content:center;margin-bottom:17px}.auth-mark{width:54px;height:54px;border-radius:19px;background:var(--sage-light);display:grid;place-items:center;font-size:28px}.auth-card h1{font-size:23px;margin:0;letter-spacing:-.03em}.auth-card p{font-size:13px;line-height:1.75;color:var(--muted);margin:11px 0 22px}.google-btn{width:100%;height:48px;display:flex;align-items:center;justify-content:center;gap:11px;border:1px solid #deded9;background:#fff;border-radius:13px;font-weight:600;font-size:13px;transition:.18s}.google-btn:hover{background:#f8f8f5;box-shadow:0 3px 12px #343c3a12}.google-logo{width:18px;height:18px}.auth-message{min-height:18px;margin-top:12px!important;margin-bottom:0!important;font-size:11px!important;color:#9a6d5b!important}.auth-note{margin-top:20px;padding-top:15px;border-top:1px solid var(--line);font-size:10px;color:#999e97;line-height:1.6}.account-chip{display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:4px 5px 4px 12px}.account-chip img{width:30px;height:30px;border-radius:50%;object-fit:cover}.account-chip span{max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--muted)}.signout-btn{background:#f1efe9;border-radius:9px;padding:7px 9px;font-size:10px;color:#69736c}.auth-hidden{display:none!important}
+@media(max-width:480px){.auth-card{padding:29px 23px}.account-chip span{display:none}.topbar{gap:8px}}
 </style>
 </head>
 <body>
+<div class="auth-gate" id="authGate" aria-labelledby="authTitle">
+  <section class="auth-card">
+    <div class="auth-brand"><div class="auth-mark">🌱</div></div>
+    <h1 id="authTitle">歡迎來到日常小島</h1>
+    <p>登入後，開始安排今天的步調、整理課表空堂，並累積屬於你的點數與里程碑。</p>
+    <button class="google-btn" id="googleSignIn" type="button">
+      <svg class="google-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z" transform="translate(0 5)"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.9c-.58 2.96-2.26 5.48-4.74 7.18l7.65 5.93c4.46-4.12 7.17-10.2 7.17-17.58Z"/><path fill="#FBBC05" d="M10.53 28.59a14.4 14.4 0 0 1 0-9.18l-7.98-6.2a23.92 23.92 0 0 0 0 21.58l7.98-6.2Z" transform="translate(0 0)"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.9-5.87l-7.65-5.93c-2.13 1.43-4.86 2.27-8.25 2.27-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.2C6.51 42.62 14.62 48 24 48Z"/></svg>
+      使用 Google 帳號登入
+    </button>
+    <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+    <div class="auth-note">你的課表與個人進度只用於提供個人化安排。<br>登入後即可使用系統功能。</div>
+  </section>
+</div>
+<div id="appShell" class="auth-hidden">
 <div class="app">
-  <header class="topbar"><div class="brand"><div class="brand-icon">🌱</div><div>日常小島<small>MY LITTLE ROUTINE</small></div></div><div class="profile"><div class="coin">✦ <span id="coinCount">42</span> 點</div><div class="avatar">🐻</div></div></header>
+  <header class="topbar"><div class="brand"><div class="brand-icon">🌱</div><div>日常小島<small>MY LITTLE ROUTINE</small></div></div><div class="profile"><div class="coin">✦ <span id="coinCount">42</span> 點</div><div class="account-chip" id="accountChip" hidden><img id="accountPhoto" alt="" /><span id="accountName"></span><button class="signout-btn" id="signOutBtn" type="button">登出</button></div><div class="avatar" id="guestAvatar">🐻</div></div></header>
   <main class="layout">
     <section class="main-col">
       <div class="greeting"><div><div class="date">星期三・10 月 30 日</div><h1>早安，今天也慢慢來 ☁️</h1><p>一件一件完成，就已經很棒了。</p></div><div class="date-pill">今日概覽　⌄</div></div>
@@ -46,9 +65,96 @@
     </aside>
   </main>
 </div>
+</div><!-- /appShell -->
 <div class="toast" id="toast"></div><div class="confetti" id="confetti"></div>
 <div class="modal-backdrop" id="modalBackdrop"><div class="modal" id="modal"></div></div>
-<script>
+<script src="./firebase-config.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+const firebaseConfig = window.FIREBASE_CONFIG || null;
+const authGate = document.getElementById('authGate');
+const appShell = document.getElementById('appShell');
+const authMessage = document.getElementById('authMessage');
+const googleSignInButton = document.getElementById('googleSignIn');
+let firebaseAuth = null;
+
+function showAuthError(error) {
+  const messages = {
+    'auth/unauthorized-domain': '此網域尚未加入 Firebase 授權網域，請至 Firebase Console 新增目前網站網域。',
+    'auth/popup-closed-by-user': '登入視窗已關閉，若要使用系統請重新登入。',
+    'auth/cancelled-popup-request': '登入流程已取消，請再試一次。',
+    'auth/network-request-failed': '網路連線暫時無法完成登入，請檢查連線後重試。'
+  };
+  authMessage.textContent = messages[error?.code] || '登入暫時無法完成，請確認 Firebase 設定與 Google 登入服務後重試。';
+  googleSignInButton.disabled = false;
+  googleSignInButton.style.opacity = '1';
+}
+
+function showSignedInUser(user) {
+  authGate.classList.add('auth-hidden');
+  appShell.classList.remove('auth-hidden');
+  const chip = document.getElementById('accountChip');
+  const guestAvatar = document.getElementById('guestAvatar');
+  chip.hidden = false;
+  guestAvatar.hidden = true;
+  document.getElementById('accountName').textContent = user.displayName || user.email || '已登入';
+  const photo = document.getElementById('accountPhoto');
+  if (user.photoURL) { photo.src = user.photoURL; photo.hidden = false; }
+  else { photo.hidden = true; }
+}
+
+if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || firebaseConfig.apiKey === 'YOUR_API_KEY') {
+  googleSignInButton.disabled = true;
+  googleSignInButton.style.opacity = '.55';
+  authMessage.textContent = '請先設定 Firebase Web app 設定，完成後即可啟用 Google 登入。';
+} else {
+  try {
+    const firebaseApp = initializeApp(firebaseConfig);
+    firebaseAuth = getAuth(firebaseApp);
+    const googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+    onAuthStateChanged(firebaseAuth, user => {
+      if (user) showSignedInUser(user);
+      else {
+        authGate.classList.remove('auth-hidden');
+        appShell.classList.add('auth-hidden');
+      }
+    });
+    getRedirectResult(firebaseAuth).catch(showAuthError);
+
+    googleSignInButton.addEventListener('click', async () => {
+      authMessage.textContent = '';
+      googleSignInButton.disabled = true;
+      googleSignInButton.style.opacity = '.7';
+      try {
+        await signInWithPopup(firebaseAuth, googleProvider);
+      } catch (error) {
+        if (['auth/popup-blocked', 'auth/web-storage-unsupported'].includes(error?.code)) {
+          try { await signInWithRedirect(firebaseAuth, googleProvider); return; }
+          catch (redirectError) { showAuthError(redirectError); return; }
+        }
+        showAuthError(error);
+      } finally {
+        if (firebaseAuth.currentUser) {
+          googleSignInButton.disabled = false;
+          googleSignInButton.style.opacity = '1';
+        }
+      }
+    });
+    document.getElementById('signOutBtn').addEventListener('click', async () => {
+      try { await signOut(firebaseAuth); }
+      catch { authMessage.textContent = '登出時發生問題，請稍後再試。'; }
+    });
+  } catch (error) {
+    console.error('Firebase initialization failed', error);
+    googleSignInButton.disabled = true;
+    authMessage.textContent = 'Firebase 初始化失敗，請檢查設定檔內容是否正確。';
+  }
+}
+
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);let points=42, completedTasks=18, streak=2, weekDays=2, allDayBonus=false, toastTimer;let saved=null;try{saved=localStorage.getItem('littleIsland')}catch{}if(saved){try{const d=JSON.parse(saved);points=d.points??points;completedTasks=d.completedTasks??completedTasks;streak=d.streak??streak;weekDays=d.weekDays??weekDays;$('#coinCount').textContent=points;$('#taskTotal').textContent=completedTasks;$('#weekDays').textContent=`${weekDays} / 7`;$('#streak').textContent=streak}catch{}}function persist(){try{localStorage.setItem('littleIsland',JSON.stringify({points,completedTasks,streak,weekDays}))}catch{}}function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2400)}function celebrate(){const c=$('#confetti');c.innerHTML='';for(let i=0;i<38;i++){const s=document.createElement('span');s.style.left=Math.random()*100+'%';s.style.animationDelay=Math.random()*.5+'s';s.style.transform=`rotate(${Math.random()*180}deg)`;c.appendChild(s)}setTimeout(()=>c.innerHTML='',2100)}function updateProgress(){const tasks=[...$$('.task')],done=tasks.filter(t=>t.classList.contains('done')).length,p=Math.round(done/tasks.length*100);$('#progressText').textContent=`完成 ${done} / ${tasks.length} 項，保持自己的步調` ;$('#progressPercent').textContent=p+'%';$('#progressRing').style.background=`conic-gradient(var(--sage) ${p*3.6}deg,#cdd6cd 0)`;if(done===tasks.length&&!allDayBonus){allDayBonus=true;points+=20;$('#coinCount').textContent=points;$('#taskTotal').textContent=completedTasks;persist();celebrate();toast('今天全部完成！額外獲得 20 點，太棒了 ✨')}}function bindTask(t){t.querySelector('.check').addEventListener('click',()=>{if(t.classList.contains('done'))return;t.classList.add('done');points+=Number(t.dataset.points||10);completedTasks++;$('#coinCount').textContent=points;$('#taskTotal').textContent=completedTasks;toast('任務完成！獲得 10 點 ✨');updateProgress();persist()})}$$('.task').forEach(bindTask);$('#addTaskBtn').onclick=()=>openModal(`<div class="modal-head"><h2>新增待辦</h2><button class="close" data-close>×</button></div><p>寫下一件你想完成的小事，不需要一次安排太多。</p><div class="input-row"><label>待辦內容</label><input id="newTaskName" placeholder="例如：讀 10 分鐘的書" /></div><div class="input-row"><label>預估時間</label><select id="newTaskTime"><option>約 15 分鐘</option><option>約 30 分鐘</option><option>約 60 分鐘</option><option>有空時</option></select></div><button class="primary" id="saveTask">加入今日待辦</button>`);function openModal(html){$('#modal').innerHTML=html;$('#modalBackdrop').classList.add('open');$$('[data-close]').forEach(b=>b.onclick=closeModal);$('#modalBackdrop').onclick=e=>{if(e.target.id==='modalBackdrop')closeModal()}}function closeModal(){$('#modalBackdrop').classList.remove('open')}document.addEventListener('click',e=>{if(e.target.id==='saveTask'){const name=$('#newTaskName').value.trim();if(!name){$('#newTaskName').focus();return}const t=document.createElement('div');t.className='task';t.dataset.points='10';t.innerHTML=`<button class="check" aria-label="標記完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title"></div><div class="task-meta"><span class="tag">自訂</span><span>${$('#newTaskTime').value}</span></div></div><div class="points">+10 點</div>`;t.querySelector('.task-title').textContent=name;$('#taskList').append(t);bindTask(t);allDayBonus=false;closeModal();updateProgress();toast('已加入今日待辦 🌿')}});
 $('#importBtn').onclick=()=>openModal(`<div class="modal-head"><h2>匯入中央大學課表</h2><button class="close" data-close>×</button></div><p>選擇課表檔案後，確認課程名稱與時間即可。匯入後不保留教師與教室資訊，並可安排空堂待辦。</p><div class="tabs"><button class="selected">檔案匯入</button><button>貼上課表資料</button></div><label class="upload-area" for="scheduleFile"><div class="upload-icon">📄</div><strong>選擇課表檔案</strong><span>支援 CSV、圖片或 PDF（原型示範）</span><input id="scheduleFile" type="file" accept=".csv,image/*,.pdf" style="display:none"></label><div class="input-row"><label>學校／課程系統</label><input value="國立中央大學" /></div><button class="primary" id="previewSchedule">預覽匯入內容</button><button class="secondary" data-close>稍後再說</button>`);$('#modal').addEventListener('click',e=>{if(e.target.id==='previewSchedule'){openModal(`<div class="modal-head"><h2>確認課表內容</h2><button class="close" data-close>×</button></div><p>以下為預覽示意。匯入前可確認每週課程；教師姓名與教室欄位將自動略過。</p><div class="preview"><div class="preview-row"><b>星期一</b><span>09:00 資料結構</span><span>✓</span></div><div class="preview-row"><b>星期三</b><span>13:00 心理學概論</span><span>✓</span></div><div class="preview-row"><b>星期五</b><span>10:00 設計思考</span><span>✓</span></div></div><div class="subtle">已略過：教師姓名、教室資訊</div><button class="primary" id="confirmImport" style="margin-top:14px">確認匯入課表</button><button class="secondary" data-close>返回修改</button>`)}if(e.target.id==='confirmImport'){closeModal();toast('課表已匯入！已為你整理可用空堂 🌿')}});
 function showRecommendations(){openModal(`<div class="modal-head"><h2>空堂待辦建議</h2><button class="close" data-close>×</button></div><p>依據今天空堂與任務預估時間，挑選一項剛剛好的安排；已保留休息緩衝。</p><div class="preview"><div class="preview-row"><b>10:00–10:30</b><span>完成心理學閱讀</span><span>30 分</span></div><div class="preview-row"><b>10:30–11:00</b><span>休息／走動</span><span>緩衝</span></div><div class="preview-row"><b>14:00–14:30</b><span>回覆社團訊息</span><span>15 分</span></div></div><button class="primary" id="acceptPlan">加入今日安排</button><button class="secondary" id="adjustPlan">我想自己調整</button>`)}$('#recommendBtn').onclick=showRecommendations;$('#recommendBtn2').onclick=showRecommendations;document.addEventListener('click',e=>{if(e.target.id==='acceptPlan'){closeModal();toast('已加入今日安排，可以再隨時調整 🌱')}if(e.target.id==='adjustPlan'){closeModal();toast('安排保留彈性，照你的步調來就好')}});

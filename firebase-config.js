@@ -1,4 +1,4 @@
-const firebaseConfig = {
+  window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyBkvPXuDd7swybVqImy7AkxOJGQApReYAc",
   authDomain: "w9-login.firebaseapp.com",
   projectId: "w9-login",

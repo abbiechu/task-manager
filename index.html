@@ -91,6 +91,21 @@ function showAuthError(error) {
   googleSignInButton.style.opacity = '1';
 }
 
+function showFirestoreError(error) {
+  const messages = {
+    'permission-denied': 'Google 登入成功，但 Firestore 安全規則拒絕了資料讀取。請在同一個 Firebase 專案發布 firestore.rules。',
+    'not-found': 'Google 登入成功，但找不到 Firestore 資料庫。請確認已在此 Firebase 專案建立 Cloud Firestore。',
+    'failed-precondition': 'Google 登入成功，但 Firestore 尚未就緒。請確認資料庫已建立，且使用此網站設定的同一個 Firebase 專案。',
+    'unavailable': 'Google 登入成功，但目前連不上 Firestore。請檢查網路或稍後重試。',
+    'network-request-failed': 'Google 登入成功，但目前網路無法讀取 Firestore。請檢查連線後重試。'
+  };
+  authMessage.textContent = messages[error?.code]
+    || `Google 登入成功，但讀取 Firestore 失敗${error?.code ? `（${error.code}）` : ''}。請確認資料庫與安全規則設定。`;
+  googleSignInButton.disabled = false;
+  googleSignInButton.style.opacity = '1';
+  googleSignInButton.textContent = '重新載入雲端資料';
+}
+
 function showSignedInUser(user) {
   authGate.classList.add('auth-hidden');
   appShell.classList.remove('auth-hidden');
@@ -129,12 +144,7 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
           console.error('Firestore load failed', error);
           authGate.classList.remove('auth-hidden');
           appShell.classList.add('auth-hidden');
-          authMessage.textContent = error?.code === 'permission-denied'
-            ? 'Google 登入成功，但 Firestore 規則尚未允許存取。請部署 firestore.rules。'
-            : 'Google 登入成功，但尚未建立 Firestore 資料庫或無法連線。請先在 Firebase Console 建立資料庫。';
-          googleSignInButton.disabled = false;
-          googleSignInButton.style.opacity = '1';
-          googleSignInButton.textContent = '重新載入雲端資料';
+          showFirestoreError(error);
         }
       } else {
         currentUser = null;
@@ -163,7 +173,8 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
           try { await signInWithRedirect(firebaseAuth, googleProvider); return; }
           catch (redirectError) { showAuthError(redirectError); return; }
         }
-        showAuthError(error);
+        if (firebaseAuth.currentUser) showFirestoreError(error);
+        else showAuthError(error);
       } finally {
         if (firebaseAuth.currentUser) {
           googleSignInButton.disabled = false;

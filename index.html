@@ -15,6 +15,7 @@
 /* Firebase authentication gate */
 .auth-gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 0%,#e4ebe4 0%,#f4f2ec 55%);display:grid;place-items:center;padding:22px}.auth-card{width:min(420px,100%);background:var(--paper);border:1px solid rgba(230,226,217,.9);border-radius:26px;padding:34px 30px;box-shadow:0 24px 70px rgba(59,65,57,.12);text-align:center}.auth-brand{display:flex;justify-content:center;margin-bottom:17px}.auth-mark{width:54px;height:54px;border-radius:19px;background:var(--sage-light);display:grid;place-items:center;font-size:28px}.auth-card h1{font-size:23px;margin:0;letter-spacing:-.03em}.auth-card p{font-size:13px;line-height:1.75;color:var(--muted);margin:11px 0 22px}.google-btn{width:100%;height:48px;display:flex;align-items:center;justify-content:center;gap:11px;border:1px solid #deded9;background:#fff;border-radius:13px;font-weight:600;font-size:13px;transition:.18s}.google-btn:hover{background:#f8f8f5;box-shadow:0 3px 12px #343c3a12}.google-logo{width:18px;height:18px}.auth-message{min-height:18px;margin-top:12px!important;margin-bottom:0!important;font-size:11px!important;color:#9a6d5b!important}.auth-note{margin-top:20px;padding-top:15px;border-top:1px solid var(--line);font-size:10px;color:#999e97;line-height:1.6}.account-chip{display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:4px 5px 4px 12px}.account-chip img{width:30px;height:30px;border-radius:50%;object-fit:cover}.account-chip span{max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--muted)}.signout-btn{background:#f1efe9;border-radius:9px;padding:7px 9px;font-size:10px;color:#69736c}.auth-hidden{display:none!important}
 @media(max-width:480px){.auth-card{padding:29px 23px}.account-chip span{display:none}.topbar{gap:8px}}
+.sync-status{font-size:10px;color:#748579;white-space:nowrap}.sync-status.error{color:#b06e5c}.empty-tasks{padding:20px 0;text-align:center;color:var(--muted);font-size:12px}.profile{flex-wrap:wrap;justify-content:flex-end}
 </style>
 </head>
 <body>
@@ -33,18 +34,13 @@
 </div>
 <div id="appShell" class="auth-hidden">
 <div class="app">
-  <header class="topbar"><div class="brand"><div class="brand-icon">🌱</div><div>日常小島<small>MY LITTLE ROUTINE</small></div></div><div class="profile"><div class="coin">✦ <span id="coinCount">42</span> 點</div><div class="account-chip" id="accountChip" hidden><img id="accountPhoto" alt="" /><span id="accountName"></span><button class="signout-btn" id="signOutBtn" type="button">登出</button></div><div class="avatar" id="guestAvatar">🐻</div></div></header>
+  <header class="topbar"><div class="brand"><div class="brand-icon">🌱</div><div>日常小島<small>MY LITTLE ROUTINE</small></div></div><div class="profile"><span class="sync-status" id="syncStatus" aria-live="polite"></span><div class="coin">✦ <span id="coinCount">0</span> 點</div><div class="account-chip" id="accountChip" hidden><img id="accountPhoto" alt="" /><span id="accountName"></span><button class="signout-btn" id="signOutBtn" type="button">登出</button></div><div class="avatar" id="guestAvatar">🐻</div></div></header>
   <main class="layout">
     <section class="main-col">
       <div class="greeting"><div><div class="date">星期三・10 月 30 日</div><h1>早安，今天也慢慢來 ☁️</h1><p>一件一件完成，就已經很棒了。</p></div><div class="date-pill">今日概覽　⌄</div></div>
       <section class="card today-card">
-        <div class="today-banner"><div><strong>今日待辦</strong><small id="progressText">完成 1 / 4 項，保持自己的步調</small></div><div class="progress-ring" id="progressRing"><span id="progressPercent">25%</span></div></div>
-        <div class="task-list" id="taskList">
-          <div class="task done" data-points="10"><button class="check" aria-label="完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title">整理課堂筆記</div><div class="task-meta"><span class="tag">學習</span><span>早上</span></div></div><div class="points">+10 點</div></div>
-          <div class="task" data-points="10"><button class="check" aria-label="標記完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title">完成心理學閱讀</div><div class="task-meta"><span class="tag">學習</span><span>約 30 分鐘</span></div></div><div class="points">+10 點</div></div>
-          <div class="task" data-points="10"><button class="check" aria-label="標記完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title">散步或伸展一下</div><div class="task-meta"><span class="tag">照顧自己</span><span>有空時</span></div></div><div class="points">+10 點</div></div>
-          <div class="task" data-points="10"><button class="check" aria-label="標記完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title">回覆社團訊息</div><div class="task-meta"><span class="tag">生活</span><span>下午</span></div></div><div class="points">+10 點</div></div>
-        </div><div class="add-row"><button class="add-btn" id="addTaskBtn">＋　新增一項待辦</button></div>
+        <div class="today-banner"><div><strong>今日待辦</strong><small id="progressText">從一件小事開始，保持自己的步調</small></div><div class="progress-ring" id="progressRing"><span id="progressPercent">0%</span></div></div>
+<div class="task-list" id="taskList"><div class="empty-tasks">登入後載入雲端待辦…</div></div><div class="add-row"><button class="add-btn" id="addTaskBtn">＋　新增一項待辦</button></div>
       </section>
       <div class="section-label">課表與空堂安排</div>
       <section class="card schedule">
@@ -55,11 +51,11 @@
         <div class="free-time"><span>🌿　空堂 14:00 – 17:00・約 3 小時</span><button class="recommend" id="recommendBtn2">看看推薦</button></div>
         <div class="course"><div class="time">17:00</div><div class="course-block"><div><div class="course-name">設計思考</div><div class="course-sub">選修課・大講堂</div></div><span>✏️</span></div></div>
       </section>
-      <section class="card" style="margin-top:18px"><div class="card-head"><h2>本週的自己</h2><span class="subtle">完成任務的日子</span></div><div class="week-row"><div class="day-cell"><b>一</b><span>✓ 完成</span></div><div class="day-cell active"><b>二</b><span>✓ 完成</span></div><div class="day-cell active"><b>三</b><span id="todayWeekStatus">進行中</span></div><div class="day-cell"><b>四</b><span>還沒開始</span></div><div class="day-cell"><b>五</b><span>還沒開始</span></div><div class="day-cell"><b>六</b><span>自由日</span></div><div class="day-cell"><b>日</b><span>自由日</span></div></div></section>
+      <section class="card" style="margin-top:18px"><div class="card-head"><h2>本週的自己</h2><span class="subtle">完成任務的日子</span></div><div class="week-row" id="weekRow"></div></section>
     </section>
     <aside class="right-col">
-      <section class="card streak-card"><div class="streak-top"><div><div class="streak-num"><span id="streak">2</span><small> 天</small></div><div class="streak-copy">連續完成日</div></div><div class="streak-flame">🌤️</div></div><div class="week-dots"><div class="week-dot"><div class="dot done">✓</div>一</div><div class="week-dot"><div class="dot done">✓</div>二</div><div class="week-dot"><div class="dot today" id="todayDot">·</div>三</div><div class="week-dot"><div class="dot">·</div>四</div><div class="week-dot"><div class="dot">·</div>五</div><div class="week-dot"><div class="dot">·</div>六</div><div class="week-dot"><div class="dot">·</div>日</div></div></section>
-      <div class="stat-grid"><div class="stat"><div class="stat-icon">🌱</div><strong id="weekDays">2 / 7</strong><span>本週完成天數</span></div><div class="stat"><div class="stat-icon">✨</div><strong id="taskTotal">18</strong><span>累積完成任務</span></div></div>
+      <section class="card streak-card"><div class="streak-top"><div><div class="streak-num"><span id="streak">0</span><small> 天</small></div><div class="streak-copy">連續完成日</div></div><div class="streak-flame">🌤️</div></div><div class="week-dots" id="weekDots"></div></section>
+      <div class="stat-grid"><div class="stat"><div class="stat-icon">🌱</div><strong id="weekDays">0 / 7</strong><span>本週完成天數</span></div><div class="stat"><div class="stat-icon">✨</div><strong id="taskTotal">0</strong><span>累積完成任務</span></div></div>
       <section class="card island-card"><div class="island-head"><h2>我的小島</h2><button class="edit" id="decorateBtn">佈置　↗</button></div><div class="island-scene"><div class="sun"></div><div class="hill one"></div><div class="hill two"></div><div class="plant" id="islandDecor">🪴</div><div class="island-pet" id="islandPet">🐻</div></div><div class="scene-caption"><span>熊熊的午後小島</span><span>等級 1 · 安心角落</span></div></section>
       <section class="card milestone"><div class="milestone-title"><h2>慢慢累積的里程碑</h2><a id="journeyBtn">21 天練習 ↗</a></div><div class="milestone-progress"><div class="bar-top"><span>收集小動物・小狐狸</span><span>2 / 5 天</span></div><div class="bar"><i style="width:40%"></i></div></div><div class="reward"><div class="reward-icon">🦊</div><div><strong>小狐狸夥伴</strong><small>連續完成 5 天即可解鎖</small></div><span class="lock">🔒</span></div><div class="milestone-progress"><div class="bar-top"><span>下一個裝飾・小盆栽</span><span>42 / 60 點</span></div><div class="bar"><i style="width:70%;background:#c6a86c"></i></div></div></section>
     </aside>
@@ -72,6 +68,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, collection, getDoc, getDocs, addDoc, updateDoc, setDoc, serverTimestamp, runTransaction, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = window.FIREBASE_CONFIG || null;
 const authGate = document.getElementById('authGate');
@@ -79,6 +76,8 @@ const appShell = document.getElementById('appShell');
 const authMessage = document.getElementById('authMessage');
 const googleSignInButton = document.getElementById('googleSignIn');
 let firebaseAuth = null;
+let db = null;
+let currentUser = null;
 
 function showAuthError(error) {
   const messages = {
@@ -116,11 +115,32 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
     const googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-    onAuthStateChanged(firebaseAuth, user => {
-      if (user) showSignedInUser(user);
-      else {
+    db = getFirestore(firebaseApp);
+    onAuthStateChanged(firebaseAuth, async user => {
+      if (user) {
+        currentUser = user;
+        authMessage.textContent = '正在載入你的雲端資料…';
+        try {
+          await loadCloudData(user);
+          showSignedInUser(user);
+          authMessage.textContent = '';
+          setSyncStatus('雲端已同步');
+        } catch (error) {
+          console.error('Firestore load failed', error);
+          authGate.classList.remove('auth-hidden');
+          appShell.classList.add('auth-hidden');
+          authMessage.textContent = error?.code === 'permission-denied'
+            ? 'Google 登入成功，但 Firestore 規則尚未允許存取。請部署 firestore.rules。'
+            : 'Google 登入成功，但尚未建立 Firestore 資料庫或無法連線。請先在 Firebase Console 建立資料庫。';
+          googleSignInButton.disabled = false;
+          googleSignInButton.style.opacity = '1';
+          googleSignInButton.textContent = '重新載入雲端資料';
+        }
+      } else {
+        currentUser = null;
         authGate.classList.remove('auth-hidden');
         appShell.classList.add('auth-hidden');
+        googleSignInButton.textContent = '使用 Google 帳號登入';
       }
     });
     getRedirectResult(firebaseAuth).catch(showAuthError);
@@ -130,7 +150,14 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
       googleSignInButton.disabled = true;
       googleSignInButton.style.opacity = '.7';
       try {
-        await signInWithPopup(firebaseAuth, googleProvider);
+        if (firebaseAuth.currentUser) {
+          await loadCloudData(firebaseAuth.currentUser);
+          showSignedInUser(firebaseAuth.currentUser);
+          authMessage.textContent = '';
+          setSyncStatus('雲端已同步');
+        } else {
+          await signInWithPopup(firebaseAuth, googleProvider);
+        }
       } catch (error) {
         if (['auth/popup-blocked', 'auth/web-storage-unsupported'].includes(error?.code)) {
           try { await signInWithRedirect(firebaseAuth, googleProvider); return; }
@@ -155,10 +182,400 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
   }
 }
 
-const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);let points=42, completedTasks=18, streak=2, weekDays=2, allDayBonus=false, toastTimer;let saved=null;try{saved=localStorage.getItem('littleIsland')}catch{}if(saved){try{const d=JSON.parse(saved);points=d.points??points;completedTasks=d.completedTasks??completedTasks;streak=d.streak??streak;weekDays=d.weekDays??weekDays;$('#coinCount').textContent=points;$('#taskTotal').textContent=completedTasks;$('#weekDays').textContent=`${weekDays} / 7`;$('#streak').textContent=streak}catch{}}function persist(){try{localStorage.setItem('littleIsland',JSON.stringify({points,completedTasks,streak,weekDays}))}catch{}}function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2400)}function celebrate(){const c=$('#confetti');c.innerHTML='';for(let i=0;i<38;i++){const s=document.createElement('span');s.style.left=Math.random()*100+'%';s.style.animationDelay=Math.random()*.5+'s';s.style.transform=`rotate(${Math.random()*180}deg)`;c.appendChild(s)}setTimeout(()=>c.innerHTML='',2100)}function updateProgress(){const tasks=[...$$('.task')],done=tasks.filter(t=>t.classList.contains('done')).length,p=Math.round(done/tasks.length*100);$('#progressText').textContent=`完成 ${done} / ${tasks.length} 項，保持自己的步調` ;$('#progressPercent').textContent=p+'%';$('#progressRing').style.background=`conic-gradient(var(--sage) ${p*3.6}deg,#cdd6cd 0)`;if(done===tasks.length&&!allDayBonus){allDayBonus=true;points+=20;$('#coinCount').textContent=points;$('#taskTotal').textContent=completedTasks;persist();celebrate();toast('今天全部完成！額外獲得 20 點，太棒了 ✨')}}function bindTask(t){t.querySelector('.check').addEventListener('click',()=>{if(t.classList.contains('done'))return;t.classList.add('done');points+=Number(t.dataset.points||10);completedTasks++;$('#coinCount').textContent=points;$('#taskTotal').textContent=completedTasks;toast('任務完成！獲得 10 點 ✨');updateProgress();persist()})}$$('.task').forEach(bindTask);$('#addTaskBtn').onclick=()=>openModal(`<div class="modal-head"><h2>新增待辦</h2><button class="close" data-close>×</button></div><p>寫下一件你想完成的小事，不需要一次安排太多。</p><div class="input-row"><label>待辦內容</label><input id="newTaskName" placeholder="例如：讀 10 分鐘的書" /></div><div class="input-row"><label>預估時間</label><select id="newTaskTime"><option>約 15 分鐘</option><option>約 30 分鐘</option><option>約 60 分鐘</option><option>有空時</option></select></div><button class="primary" id="saveTask">加入今日待辦</button>`);function openModal(html){$('#modal').innerHTML=html;$('#modalBackdrop').classList.add('open');$$('[data-close]').forEach(b=>b.onclick=closeModal);$('#modalBackdrop').onclick=e=>{if(e.target.id==='modalBackdrop')closeModal()}}function closeModal(){$('#modalBackdrop').classList.remove('open')}document.addEventListener('click',e=>{if(e.target.id==='saveTask'){const name=$('#newTaskName').value.trim();if(!name){$('#newTaskName').focus();return}const t=document.createElement('div');t.className='task';t.dataset.points='10';t.innerHTML=`<button class="check" aria-label="標記完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title"></div><div class="task-meta"><span class="tag">自訂</span><span>${$('#newTaskTime').value}</span></div></div><div class="points">+10 點</div>`;t.querySelector('.task-title').textContent=name;$('#taskList').append(t);bindTask(t);allDayBonus=false;closeModal();updateProgress();toast('已加入今日待辦 🌿')}});
+const $ = selector => document.querySelector(selector);
+const $$ = selector => document.querySelectorAll(selector);
+let points = 0, completedTasks = 0, streak = 0, weekDays = 0;
+let allDayBonus = false, toastTimer, tasks = [], currentProfile = {};
+const userCacheKey = uid => `littleIsland:${uid}`;
+const profileRef = () => doc(db, 'users', currentUser.uid);
+const tasksRef = () => collection(db, 'users', currentUser.uid, 'tasks');
+const activityDaysRef = () => collection(db, 'users', currentUser.uid, 'activityDays');
+const todayKey = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei' }).format(new Date());
+let activityDates = new Set();
+
+function offsetDate(dateKey, offset) {
+  const date = new Date(`${dateKey}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + offset);
+  return date.toISOString().slice(0, 10);
+}
+
+function weekStartKey(dateKey = todayKey()) {
+  const weekday = new Date(`${dateKey}T00:00:00Z`).getUTCDay();
+  return offsetDate(dateKey, -(weekday === 0 ? 6 : weekday - 1));
+}
+
+function setSyncStatus(text, isError = false) {
+  const status = $('#syncStatus');
+  if (!status) return;
+  status.textContent = text;
+  status.classList.toggle('error', isError);
+}
+
+function toast(message) {
+  const element = $('#toast');
+  element.textContent = message;
+  element.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => element.classList.remove('show'), 2400);
+}
+
+function celebrate() {
+  const container = $('#confetti');
+  container.innerHTML = '';
+  for (let i = 0; i < 38; i++) {
+    const piece = document.createElement('span');
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.animationDelay = Math.random() * .5 + 's';
+    piece.style.transform = `rotate(${Math.random() * 180}deg)`;
+    container.appendChild(piece);
+  }
+  setTimeout(() => container.innerHTML = '', 2100);
+}
+
+function renderTaskList() {
+  const list = $('#taskList');
+  list.replaceChildren();
+  if (!tasks.length) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-tasks';
+    empty.textContent = '今天還沒有待辦，新增一件想完成的小事吧 🌿';
+    list.appendChild(empty);
+  }
+  tasks.forEach(taskData => {
+    const task = document.createElement('div');
+    task.className = `task${taskData.completed ? ' done' : ''}`;
+    task.dataset.id = taskData.id;
+    task.dataset.points = taskData.points || 10;
+    task.innerHTML = '<button class="check" aria-label="標記完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title"></div><div class="task-meta"><span class="tag"></span><span class="task-time"></span></div></div><div class="points">+10 點</div>';
+    task.querySelector('.task-title').textContent = taskData.title || '未命名待辦';
+    task.querySelector('.tag').textContent = taskData.category || '自訂';
+    task.querySelector('.task-time').textContent = taskData.timeLabel || '有空時';
+    task.querySelector('.points').textContent = `+${taskData.points || 10} 點`;
+    bindTask(task);
+    list.appendChild(task);
+  });
+  updateProgress(false);
+}
+
+function updateCounters() {
+  $('#coinCount').textContent = points;
+  $('#taskTotal').textContent = completedTasks;
+  $('#weekDays').textContent = `${weekDays} / 7`;
+  $('#streak').textContent = streak;
+}
+
+function renderWeekSummary() {
+  const weekStart = weekStartKey();
+  const today = todayKey();
+  const labels = ['一', '二', '三', '四', '五', '六', '日'];
+  const row = $('#weekRow');
+  const dots = $('#weekDots');
+  row.replaceChildren();
+  dots.replaceChildren();
+  labels.forEach((label, index) => {
+    const dateKey = offsetDate(weekStart, index);
+    const isToday = dateKey === today;
+    const isDone = activityDates.has(dateKey);
+    const cell = document.createElement('div');
+    cell.className = `day-cell${isDone ? ' active' : ''}`;
+    cell.innerHTML = `<b>${label}</b><span></span>`;
+    cell.querySelector('span').textContent = isDone ? '✓ 完成' : isToday ? '今天' : dateKey > today ? '待開始' : '—';
+    row.appendChild(cell);
+    const dot = document.createElement('div');
+    dot.className = 'week-dot';
+    dot.innerHTML = `<div class="dot${isDone ? ' done' : ''}${isToday ? ' today' : ''}">${isDone ? '✓' : '·'}</div>${label}`;
+    dots.appendChild(dot);
+  });
+}
+
+async function refreshActivityStats() {
+  const today = todayKey();
+  const startOfWeek = weekStartKey(today);
+  weekDays = [...activityDates].filter(dateKey => dateKey >= startOfWeek && dateKey <= today).length;
+  let anchor = activityDates.has(today) ? today : offsetDate(today, -1);
+  streak = 0;
+  while (activityDates.has(anchor) && streak < 366) {
+    streak++;
+    anchor = offsetDate(anchor, -1);
+  }
+  updateCounters();
+  renderWeekSummary();
+  persist();
+  try {
+    await setDoc(profileRef(), { weekDays, streak, updatedAt: serverTimestamp() }, { merge: true });
+  } catch (error) {
+    console.error('Activity stats save failed', error);
+    setSyncStatus('同步失敗', true);
+  }
+}
+
+async function loadCloudData(user) {
+  currentUser = user;
+  setSyncStatus('載入中…');
+  const userRef = profileRef();
+  const todayTasksQuery = query(tasksRef(), where('dateKey', '==', todayKey()));
+  const [profileSnapshot, taskSnapshot, activitySnapshot] = await Promise.all([
+    getDoc(userRef), getDocs(todayTasksQuery), getDocs(activityDaysRef())
+  ]);
+  let profile = profileSnapshot.exists() ? profileSnapshot.data() : null;
+
+  if (!profile) {
+    let legacy = {};
+    try { legacy = JSON.parse(localStorage.getItem(userCacheKey(user.uid)) || '{}'); } catch {}
+    profile = {
+      points: Number(legacy.points) || 0,
+      completedTasks: Number(legacy.completedTasks) || 0,
+      streak: Number(legacy.streak) || 0,
+      weekDays: Number(legacy.weekDays) || 0,
+      dailyBonusDate: '',
+      equippedPet: '🐻',
+      equippedDecor: '🪴',
+      unlockedDecor: ['🪴'],
+      createdAt: serverTimestamp(),
+      displayName: user.displayName || '',
+      email: user.email || ''
+    };
+    await setDoc(userRef, { ...profile, updatedAt: serverTimestamp() }, { merge: true });
+  }
+
+  currentProfile = profile;
+  points = Number(profile.points) || 0;
+  completedTasks = Number(profile.completedTasks) || 0;
+  streak = Number(profile.streak) || 0;
+  weekDays = Number(profile.weekDays) || 0;
+  allDayBonus = profile.dailyBonusDate === todayKey();
+  activityDates = new Set(activitySnapshot.docs.map(snapshot => snapshot.data().dateKey).filter(Boolean));
+  tasks = taskSnapshot.docs.map(snapshot => ({ id: snapshot.id, ...snapshot.data() }))
+    .sort((a, b) => (a.createdAtClient || '').localeCompare(b.createdAtClient || ''));
+  updateCounters();
+  if (profile.equippedPet) $('#islandPet').textContent = profile.equippedPet;
+  if (profile.equippedDecor) $('#islandDecor').textContent = profile.equippedDecor;
+  currentProfile.unlockedDecor = profile.unlockedDecor || ['🪴'];
+  renderTaskList();
+  await refreshActivityStats();
+  if (tasks.length && tasks.every(task => task.completed)) await awardDailyBonus();
+  setSyncStatus('雲端已同步');
+}
+
+function persist() {
+  if (!currentUser) return;
+  try {
+    localStorage.setItem(userCacheKey(currentUser.uid), JSON.stringify({ points, completedTasks, streak, weekDays }));
+  } catch {}
+}
+
+function updateProgress(checkBonus = true) {
+  const total = tasks.length;
+  const done = tasks.filter(task => task.completed).length;
+  const percent = total ? Math.round(done / total * 100) : 0;
+  $('#progressText').textContent = total
+    ? `完成 ${done} / ${total} 項，保持自己的步調`
+    : '從一件小事開始，保持自己的步調';
+  $('#progressPercent').textContent = percent + '%';
+  $('#progressRing').style.background = `conic-gradient(var(--sage) ${percent * 3.6}deg,#cdd6cd 0)`;
+  if (checkBonus && total > 0 && done === total) awardDailyBonus();
+}
+
+let bonusInFlight = false;
+async function awardDailyBonus() {
+  if (!currentUser || bonusInFlight || allDayBonus) return;
+  bonusInFlight = true;
+  try {
+    const awardResult = await runTransaction(db, async transaction => {
+      const snapshot = await transaction.get(profileRef());
+      const dayRef = doc(db, 'users', currentUser.uid, 'activityDays', todayKey());
+      const daySnapshot = await transaction.get(dayRef);
+      const awarded = snapshot.exists() && snapshot.data().dailyBonusDate !== todayKey();
+      if (awarded) {
+        transaction.update(profileRef(), {
+          points: (Number(snapshot.data().points) || 0) + 20,
+          dailyBonusDate: todayKey(),
+          updatedAt: serverTimestamp()
+        });
+      }
+      if (!daySnapshot.exists()) {
+        transaction.set(dayRef, { dateKey: todayKey(), completedAt: serverTimestamp() });
+      }
+      return { awarded, newActivityDay: !daySnapshot.exists() };
+    });
+    allDayBonus = true;
+    if (awardResult.newActivityDay) activityDates.add(todayKey());
+    if (awardResult.awarded) {
+      points += 20;
+      currentProfile.dailyBonusDate = todayKey();
+      updateCounters();
+      persist();
+      celebrate();
+      toast('今天全部完成！額外獲得 20 點，太棒了 ✨');
+    }
+    if (awardResult.newActivityDay) await refreshActivityStats();
+    setSyncStatus('雲端已同步');
+  } catch (error) {
+    console.error('Daily bonus save failed', error);
+    setSyncStatus('同步失敗', true);
+    toast('額外獎勵同步失敗，請稍後重試');
+  } finally {
+    bonusInFlight = false;
+  }
+}
+
+function bindTask(taskElement) {
+  taskElement.querySelector('.check').addEventListener('click', async () => {
+    const taskData = tasks.find(item => item.id === taskElement.dataset.id);
+    if (!taskData || taskData.completed || taskElement.dataset.saving) return;
+    taskElement.dataset.saving = 'true';
+    taskElement.querySelector('.check').disabled = true;
+    setSyncStatus('儲存中…');
+    try {
+      const taskRef = doc(db, 'users', currentUser.uid, 'tasks', taskData.id);
+      const completed = await runTransaction(db, async transaction => {
+        const [taskSnapshot, profileSnapshot] = await Promise.all([
+          transaction.get(taskRef), transaction.get(profileRef())
+        ]);
+        if (!taskSnapshot.exists() || taskSnapshot.data().completed) return false;
+        const profileData = profileSnapshot.exists() ? profileSnapshot.data() : {};
+        transaction.update(taskRef, {
+          completed: true,
+          completedAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+        transaction.set(profileRef(), {
+          points: (Number(profileData.points) || 0) + (Number(taskData.points) || 10),
+          completedTasks: (Number(profileData.completedTasks) || 0) + 1,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        return true;
+      });
+      if (!completed) {
+        await loadCloudData(currentUser);
+        return;
+      }
+      taskData.completed = true;
+      points += Number(taskData.points) || 10;
+      completedTasks += 1;
+      currentProfile.points = points;
+      currentProfile.completedTasks = completedTasks;
+      taskElement.classList.add('done');
+      updateCounters();
+      persist();
+      setSyncStatus('雲端已同步');
+      toast(`任務完成！獲得 ${taskData.points || 10} 點 ✨`);
+      updateProgress();
+    } catch (error) {
+      console.error('Task completion save failed', error);
+      setSyncStatus('同步失敗', true);
+      toast('儲存失敗，請確認網路後再試一次');
+      taskElement.querySelector('.check').disabled = false;
+    } finally {
+      delete taskElement.dataset.saving;
+    }
+  });
+}
+
+$('#addTaskBtn').onclick = () => openModal('<div class="modal-head"><h2>新增待辦</h2><button class="close" data-close>×</button></div><p>寫下一件你想完成的小事，不需要一次安排太多。</p><div class="input-row"><label>待辦內容</label><input id="newTaskName" placeholder="例如：讀 10 分鐘的書" /></div><div class="input-row"><label>預估時間</label><select id="newTaskTime"><option>約 15 分鐘</option><option>約 30 分鐘</option><option>約 60 分鐘</option><option>有空時</option></select></div><button class="primary" id="saveTask">加入今日待辦</button>');
+
+function openModal(html) {
+  $('#modal').innerHTML = html;
+  $('#modalBackdrop').classList.add('open');
+  $$('[data-close]').forEach(button => button.onclick = closeModal);
+  $('#modalBackdrop').onclick = event => { if (event.target.id === 'modalBackdrop') closeModal(); };
+}
+function closeModal() { $('#modalBackdrop').classList.remove('open'); }
+
+document.addEventListener('click', async event => {
+  if (event.target.id !== 'saveTask') return;
+  const title = $('#newTaskName').value.trim();
+  if (!title) { $('#newTaskName').focus(); return; }
+  const button = event.target;
+  button.disabled = true;
+  button.textContent = '正在儲存…';
+  try {
+    const newTask = {
+      title,
+      category: '自訂',
+      timeLabel: $('#newTaskTime').value,
+      points: 10,
+      completed: false,
+      dateKey: todayKey(),
+      createdAt: serverTimestamp(),
+      createdAtClient: new Date().toISOString()
+    };
+    const created = await addDoc(tasksRef(), newTask);
+    tasks.push({ id: created.id, ...newTask });
+    renderTaskList();
+    allDayBonus = false;
+    closeModal();
+    setSyncStatus('雲端已同步');
+    toast('已加入並同步今日待辦 🌿');
+  } catch (error) {
+    console.error('Task create failed', error);
+    setSyncStatus('同步失敗', true);
+    toast('待辦儲存失敗，請確認 Firestore 規則與網路');
+    button.disabled = false;
+    button.textContent = '加入今日待辦';
+  }
+});
 $('#importBtn').onclick=()=>openModal(`<div class="modal-head"><h2>匯入中央大學課表</h2><button class="close" data-close>×</button></div><p>選擇課表檔案後，確認課程名稱與時間即可。匯入後不保留教師與教室資訊，並可安排空堂待辦。</p><div class="tabs"><button class="selected">檔案匯入</button><button>貼上課表資料</button></div><label class="upload-area" for="scheduleFile"><div class="upload-icon">📄</div><strong>選擇課表檔案</strong><span>支援 CSV、圖片或 PDF（原型示範）</span><input id="scheduleFile" type="file" accept=".csv,image/*,.pdf" style="display:none"></label><div class="input-row"><label>學校／課程系統</label><input value="國立中央大學" /></div><button class="primary" id="previewSchedule">預覽匯入內容</button><button class="secondary" data-close>稍後再說</button>`);$('#modal').addEventListener('click',e=>{if(e.target.id==='previewSchedule'){openModal(`<div class="modal-head"><h2>確認課表內容</h2><button class="close" data-close>×</button></div><p>以下為預覽示意。匯入前可確認每週課程；教師姓名與教室欄位將自動略過。</p><div class="preview"><div class="preview-row"><b>星期一</b><span>09:00 資料結構</span><span>✓</span></div><div class="preview-row"><b>星期三</b><span>13:00 心理學概論</span><span>✓</span></div><div class="preview-row"><b>星期五</b><span>10:00 設計思考</span><span>✓</span></div></div><div class="subtle">已略過：教師姓名、教室資訊</div><button class="primary" id="confirmImport" style="margin-top:14px">確認匯入課表</button><button class="secondary" data-close>返回修改</button>`)}if(e.target.id==='confirmImport'){closeModal();toast('課表已匯入！已為你整理可用空堂 🌿')}});
 function showRecommendations(){openModal(`<div class="modal-head"><h2>空堂待辦建議</h2><button class="close" data-close>×</button></div><p>依據今天空堂與任務預估時間，挑選一項剛剛好的安排；已保留休息緩衝。</p><div class="preview"><div class="preview-row"><b>10:00–10:30</b><span>完成心理學閱讀</span><span>30 分</span></div><div class="preview-row"><b>10:30–11:00</b><span>休息／走動</span><span>緩衝</span></div><div class="preview-row"><b>14:00–14:30</b><span>回覆社團訊息</span><span>15 分</span></div></div><button class="primary" id="acceptPlan">加入今日安排</button><button class="secondary" id="adjustPlan">我想自己調整</button>`)}$('#recommendBtn').onclick=showRecommendations;$('#recommendBtn2').onclick=showRecommendations;document.addEventListener('click',e=>{if(e.target.id==='acceptPlan'){closeModal();toast('已加入今日安排，可以再隨時調整 🌱')}if(e.target.id==='adjustPlan'){closeModal();toast('安排保留彈性，照你的步調來就好')}});
-$('#decorateBtn').onclick=()=>openCollection('pet');function openCollection(tab){const pet=tab==='pet';openModal(`<div class="modal-head"><h2>佈置我的小島</h2><button class="close" data-close>×</button></div><p>把喜歡的小夥伴和物件放進自己的安心角落。</p><div class="tabs"><button class="${pet?'selected':''}" id="petTab">小動物</button><button class="${!pet?'selected':''}" id="decorTab">裝飾物</button></div><div class="collection-grid">${pet?`<div class="collect-item owned"><div class="emoji">🐻</div><b>熊熊</b><small>已擁有</small><button class="use-item" data-kind="pet" data-emoji="🐻">使用中</button></div><div class="collect-item"><div class="emoji">🦊</div><b>小狐狸</b><small>連續完成 5 天</small><button disabled>🔒 5 天</button></div><div class="collect-item"><div class="emoji">🐰</div><b>兔兔</b><small>連續完成 10 天</small><button disabled>🔒 10 天</button></div>`:`<div class="collect-item owned"><div class="emoji">🪴</div><b>小盆栽</b><small>已擁有</small><button class="use-item" data-kind="decor" data-emoji="🪴">使用中</button></div><div class="collect-item"><div class="emoji">🌷</div><b>小花束</b><small>60 點</small><button class="buy-item" data-cost="60" data-emoji="🌷">解鎖</button></div><div class="collect-item"><div class="emoji">☁️</div><b>雲朵抱枕</b><small>完成 3 天</small><button disabled>🔒 3 天</button></div>`}</div><button class="secondary" data-close>完成</button>`);$('#petTab').onclick=()=>openCollection('pet');$('#decorTab').onclick=()=>openCollection('decor');$$('.buy-item').forEach(b=>b.onclick=()=>{const cost=+b.dataset.cost;if(points<cost){toast(`再累積 ${cost-points} 點就能解鎖囉 ✨`);return}points-=cost;$('#coinCount').textContent=points;persist();toast('裝飾已解鎖！到小島看看吧 🌷');$('#islandDecor').textContent=b.dataset.emoji;closeModal()});$$('.use-item').forEach(b=>b.onclick=()=>{$(b.dataset.kind==='pet'?'#islandPet':'#islandDecor').textContent=b.dataset.emoji;closeModal();toast('小島佈置更新完成 ✨')})}
+async function saveAppearance(field, value) {
+  await updateDoc(profileRef(), { [field]: value, updatedAt: serverTimestamp() });
+  currentProfile[field] = value;
+}
+
+$('#decorateBtn').onclick = () => openCollection('pet');
+function openCollection(tab) {
+  const pet = tab === 'pet';
+  const unlockedDecor = currentProfile.unlockedDecor || ['🪴'];
+  const ownsFlower = unlockedDecor.includes('🌷');
+  openModal(`<div class="modal-head"><h2>佈置我的小島</h2><button class="close" data-close>×</button></div><p>把喜歡的小夥伴和物件放進自己的安心角落。</p><div class="tabs"><button class="${pet ? 'selected' : ''}" id="petTab">小動物</button><button class="${!pet ? 'selected' : ''}" id="decorTab">裝飾物</button></div><div class="collection-grid">${pet ? `<div class="collect-item owned"><div class="emoji">🐻</div><b>熊熊</b><small>已擁有</small><button class="use-item" data-kind="pet" data-emoji="🐻">使用</button></div><div class="collect-item"><div class="emoji">🦊</div><b>小狐狸</b><small>連續完成 5 天</small><button disabled>🔒 5 天</button></div><div class="collect-item"><div class="emoji">🐰</div><b>兔兔</b><small>連續完成 10 天</small><button disabled>🔒 10 天</button></div>` : `<div class="collect-item owned"><div class="emoji">🪴</div><b>小盆栽</b><small>已擁有</small><button class="use-item" data-kind="decor" data-emoji="🪴">使用</button></div><div class="collect-item ${ownsFlower ? 'owned' : ''}"><div class="emoji">🌷</div><b>小花束</b><small>${ownsFlower ? '已擁有' : '60 點'}</small>${ownsFlower ? '<button class="use-item" data-kind="decor" data-emoji="🌷">使用</button>' : '<button class="buy-item" data-cost="60" data-emoji="🌷">解鎖</button>'}</div><div class="collect-item"><div class="emoji">☁️</div><b>雲朵抱枕</b><small>完成 3 天</small><button disabled>🔒 3 天</button></div>`}</div><button class="secondary" data-close>完成</button>`);
+  $('#petTab').onclick = () => openCollection('pet');
+  $('#decorTab').onclick = () => openCollection('decor');
+  $$('.buy-item').forEach(button => button.onclick = async () => {
+    const cost = Number(button.dataset.cost);
+    if (points < cost) { toast(`再累積 ${cost - points} 點就能解鎖囉 ✨`); return; }
+    button.disabled = true;
+    try {
+      const nextPoints = points - cost;
+      const nextUnlocked = [...new Set([...(currentProfile.unlockedDecor || ['🪴']), button.dataset.emoji])];
+      await updateDoc(profileRef(), {
+        points: nextPoints,
+        unlockedDecor: nextUnlocked,
+        equippedDecor: button.dataset.emoji,
+        updatedAt: serverTimestamp()
+      });
+      points = nextPoints;
+      currentProfile.unlockedDecor = nextUnlocked;
+      currentProfile.equippedDecor = button.dataset.emoji;
+      $('#coinCount').textContent = points;
+      $('#islandDecor').textContent = button.dataset.emoji;
+      persist();
+      closeModal();
+      setSyncStatus('雲端已同步');
+      toast('裝飾已解鎖並同步到小島 🌷');
+    } catch (error) {
+      console.error('Decoration purchase failed', error);
+      setSyncStatus('同步失敗', true);
+      toast('解鎖資料儲存失敗，請稍後重試');
+      button.disabled = false;
+    }
+  });
+  $$('.use-item').forEach(button => button.onclick = async () => {
+    const kind = button.dataset.kind;
+    const field = kind === 'pet' ? 'equippedPet' : 'equippedDecor';
+    const target = kind === 'pet' ? '#islandPet' : '#islandDecor';
+    try {
+      await saveAppearance(field, button.dataset.emoji);
+      $(target).textContent = button.dataset.emoji;
+      closeModal();
+      setSyncStatus('雲端已同步');
+      toast('小島佈置已儲存 ✨');
+    } catch (error) {
+      console.error('Decoration selection failed', error);
+      setSyncStatus('同步失敗', true);
+      toast('佈置儲存失敗，請稍後重試');
+    }
+  });
+}
 $('#journeyBtn').onclick=()=>openModal(`<div class="modal-head"><h2>21 天，慢慢建立節奏</h2><button class="close" data-close>×</button></div><p>這是一段自選練習旅程，不是期限或考核。習慣形成需要因人而異；漏掉一天也不會失去任何進度。</p><div class="habit-box"><strong>🌿 每天只做一個小步驟</strong><p>打開今日待辦 → 挑選一件重要小事 → 完成後回顧心情。你可以隨時暫停，再從舒服的地方繼續。</p></div><div class="bar-top"><span>旅程進度</span><span>第 3 / 21 天</span></div><div class="bar"><i style="width:14%"></i></div><button class="primary" style="margin-top:17px" data-close>繼續我的步調</button>`);
 </script>
 </body>

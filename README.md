@@ -9,6 +9,7 @@
 - 課表 CSV 匯入、課程時間軸與空堂待辦建議。匯入器僅儲存課程名稱、星期、時間和類別，不讀取教師或教室欄位。
 - 小動物依連續完成日解鎖（第 5、10 天）；裝飾物依累積完成日解鎖（第 1、3 天）。
 - 21 天練習進度依完成日累積，休息日不會讓進度倒退。
+- 空堂建議可呼叫 Firebase Functions 使用 Gemini 2.5 Flash；使用者點選 AI 建議時，才會傳送待辦名稱、預估時間和空堂長度，後端每日限制每位使用者 20 次。
 
 課表 CSV 範本可在網頁的「匯入／管理課表」視窗下載。匯入器支援 UTF-8／Big5 CSV、獨立星期欄位，或含星期與起訖時間的課程時間欄位。尚未以中央大學實際匯出檔驗證欄位名稱；不同版本若格式不同，請提供一份移除個資後的樣本以調整對應方式。
 
@@ -45,4 +46,12 @@ firebase deploy --only firestore:rules
 ## 尚需外部設定
 
 - LINE 登入尚未接上。需要 LINE Login Channel ID／Channel Secret，並透過可信任的伺服器端流程簽發 Firebase 登入憑證；Channel Secret 不可放在前端或提交到 Git。
-- 空堂推薦目前依待辦預估時間與空堂長度排程，尚未呼叫 AI 服務。若要加入 AI，需先選定服務商並將 API 金鑰存為伺服器端 Secret；不要放進 `firebase-config.js` 或前端程式。
+- Gemini 後端程式已備妥，但需先設定 Gemini API Key Secret，再部署 Cloud Function。API 金鑰不可放入 `firebase-config.js` 或前端程式。
+
+### 啟用 Gemini 空堂建議
+
+1. 在 Google AI Studio 建立 Gemini API Key。
+2. 在專案資料夾的終端機執行 `firebase functions:secrets:set GEMINI_API_KEY`，並在 CLI 提示時輸入金鑰。
+3. 執行 `firebase deploy --only functions:suggestTasks`。
+
+Cloud Functions 部署可能需要 Firebase 專案啟用 Blaze 計費方案。Gemini API 與 Functions 會依各自的免費額度及用量計費；請勿把 API Key 貼在聊天或提交至 Git。

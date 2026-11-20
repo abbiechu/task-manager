@@ -65,6 +65,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, doc, collection, getDoc, getDocs, addDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, runTransaction, query, where, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
 
 const firebaseConfig = window.FIREBASE_CONFIG || null;
 const authGate = document.getElementById('authGate');
@@ -73,6 +74,7 @@ const authMessage = document.getElementById('authMessage');
 const googleSignInButton = document.getElementById('googleSignIn');
 let firebaseAuth = null;
 let db = null;
+let firebaseFunctions = null;
 let currentUser = null;
 
 function showAuthError(error) {
@@ -127,6 +129,7 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
     googleProvider.setCustomParameters({ prompt: 'select_account' });
 
     db = getFirestore(firebaseApp);
+    firebaseFunctions = getFunctions(firebaseApp, 'asia-east1');
     onAuthStateChanged(firebaseAuth, async user => {
       if (user) {
         currentUser = user;
@@ -1012,7 +1015,65 @@ function showRecommendations(gapStart, gapEnd) {
   const rows = currentRecommendationPlan.length
     ? currentRecommendationPlan.map(item => `<div class="preview-row"><b>${minutesToTime(item.start)}–${minutesToTime(item.end)}</b><span>${escapeHtml(item.title)}</span><span>待辦</span></div>`).join('')
     : '<div class="empty-tasks">這段空堂沒有合適的未安排待辦。可新增短一點的任務，或選另一段空堂。</div>';
-  openModal(`<div class="modal-head"><h2>空堂待辦建議</h2><button class="close" data-close>×</button></div><p>依照今天課表、待辦預估時間推薦安排，前後保留 10 分鐘緩衝，任務間保留 5 分鐘。</p><div class="preview">${rows}</div><button class="primary" id="acceptPlan" ${currentRecommendationPlan.length ? '' : 'disabled'}>加入今日安排</button><button class="secondary" id="adjustPlan">先不安排</button>`);
+  const availableTasks = tasks.filter(task => !task.completed && task.plannedDate !== todayKey());
+  const gapMinutes = Math.max(0, end - start);
+  openModal(`<div class="modal-head"><h2>空堂待辦建議</h2><button class="close" data-close>×</button></div><p>依照空堂長度安排任務，前後保留 10 分鐘緩衝，任務間保留 5 分鐘。</p><button class="secondary" id="geminiSuggest" ${availableTasks.length && gapMinutes >= 15 ? '' : 'disabled'}>✨ 請 Gemini 協助挑選</button><p class="subtle" style="margin:7px 0 0">按下後會將待辦名稱、預估時間與空堂長度傳送給 Google Gemini，用於這次建議。</p><p id="geminiNote" class="subtle" aria-live="polite"></p><div class="preview" id="planPreview">${rows}</div><button class="primary" id="acceptPlan" ${currentRecommendationPlan.length ? '' : 'disabled'}>加入今日安排</button><button class="secondary" id="adjustPlan">先不安排</button>`);
+  $('#geminiSuggest').onclick = async () => {
+    const button = $('#geminiSuggest');
+    if (!firebaseFunctions || !currentUser) { toast('Gemini 服務尚未設定，請稍後再試'); return; }
+    button.disabled = true;
+    button.textContent = 'Gemini 思考中…';
+    $('#geminiNote').textContent = '正在依照空堂長度挑選合適的待辦…';
+    try {
+      const keyedTasks = availableTasks.map((task, index) => ({
+        key: String(index), task, estimatedMinutes: estimateTaskMinutes(task)
+      }));
+      const callable = httpsCallable(firebaseFunctions, 'suggestTasks');
+      const response = await callable({
+        gapMinutes,
+        tasks: keyedTasks.map(({ key, task, estimatedMinutes }) => ({
+          key, title: task.title || '未命名待辦', estimatedMinutes
+        }))
+      });
+      const selectedKeys = Array.isArray(response.data?.selectedKeys) ? response.data.selectedKeys : [];
+      const taskByKey = new Map(keyedTasks.map(item => [item.key, item]));
+      let cursor = start;
+      currentRecommendationPlan = [];
+      for (const key of selectedKeys) {
+        const match = taskByKey.get(String(key));
+        if (!match) continue;
+        const taskMinutes = match.estimatedMinutes;
+        if (cursor + taskMinutes > end) continue;
+        currentRecommendationPlan.push({
+          id: match.task.id,
+          title: match.task.title,
+          start: cursor,
+          end: cursor + taskMinutes
+        });
+        cursor += taskMinutes + 5;
+      }
+      const aiRows = currentRecommendationPlan.length
+        ? currentRecommendationPlan.map(item => `<div class="preview-row"><b>${minutesToTime(item.start)}–${minutesToTime(item.end)}</b><span>${escapeHtml(item.title)}</span><span>Gemini</span></div>`).join('')
+        : '<div class="empty-tasks">Gemini 建議先留些彈性，這段空堂沒有安排任務。</div>';
+      $('#planPreview').innerHTML = aiRows;
+      $('#geminiNote').textContent = response.data?.note || '已按預估時間排列，仍可依你的狀態調整。';
+      $('#acceptPlan').disabled = !currentRecommendationPlan.length;
+      button.textContent = '✨ 再請 Gemini 挑一次';
+    } catch (error) {
+      console.error('Gemini suggestions failed', error);
+      const message = error?.code === 'functions/not-found'
+        ? 'Gemini 後端尚未部署。'
+        : error?.code === 'functions/resource-exhausted'
+          ? '今天的 Gemini 建議次數已達上限，請使用一般空堂建議。'
+          : error?.code === 'functions/failed-precondition'
+            ? 'Gemini API 金鑰尚未設定。'
+            : 'Gemini 暫時無法提供建議，請稍後再試。';
+      $('#geminiNote').textContent = message;
+      toast(message);
+      button.disabled = false;
+      button.textContent = '✨ 再試一次 Gemini';
+    }
+  };
   $('#acceptPlan').onclick = async () => {
     if (!currentRecommendationPlan.length) return;
     const button = $('#acceptPlan');

@@ -13,6 +13,27 @@ service cloud.firestore {
           && request.auth.uid == userId
           && userCollection in ['tasks', 'activityDays', 'courses'];
       }
+
+      // Store an enforceable, per-user daily cap for client-side Gemini calls.
+      match /geminiUsage/{dateKey} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        allow create: if request.auth != null
+          && request.auth.uid == userId
+          && request.resource.data.keys().hasOnly(['dateKey', 'count'])
+          && request.resource.data.dateKey == dateKey
+          && request.resource.data.count is int
+          && request.resource.data.count == 1;
+        allow update: if request.auth != null
+          && request.auth.uid == userId
+          && request.resource.data.keys().hasOnly(['dateKey', 'count'])
+          && resource.data.dateKey == dateKey
+          && request.resource.data.dateKey == dateKey
+          && resource.data.count is int
+          && request.resource.data.count is int
+          && request.resource.data.count == resource.data.count + 1
+          && request.resource.data.count <= 20;
+        allow delete: if false;
+      }
     }
   }
 }

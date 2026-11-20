@@ -1,8 +1,10 @@
 // Copy this file to firebase-config.js and replace the values with your
 // Firebase project's Web app configuration from Firebase Console.
-// Do not commit real credentials into a public repository.
+// Firebase Web config and the reCAPTCHA site key are public values.
+// Never put a reCAPTCHA secret key or Gemini API key in this file.
 window.FIREBASE_CONFIG = {
   apiKey: "YOUR_API_KEY",
+  appCheckSiteKey: "YOUR_RECAPTCHA_V3_SITE_KEY",
   authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
   projectId: "YOUR_PROJECT_ID",
   storageBucket: "YOUR_PROJECT_ID.appspot.com",

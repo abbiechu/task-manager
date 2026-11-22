@@ -47,15 +47,15 @@ firebase deploy --only firestore:rules
 
 - LINE 登入尚未接上。需要 LINE Login Channel ID／Channel Secret，並透過可信任的伺服器端流程簽發 Firebase 登入憑證；Channel Secret 不可放在前端或提交到 Git。
 - Gemini 使用 Firebase AI Logic，不需要建立或放置 Gemini API Key。Spark 免費層只支援部分模型與用量；免費層提交的內容可能用於改善 Google 產品。
-- Firebase AI Logic 已要求 App Check 驗證。需在 Firebase Console 的 **AI Services → AI Logic** 啟用 Gemini Developer API，並在 **Security → App Check** 為網站註冊 reCAPTCHA v3。
-- 將 reCAPTCHA v3 **site key**（公開值）填入 `firebase-config.js` 的 `appCheckSiteKey` 欄位；reCAPTCHA **secret key** 只輸入 Firebase Console，不能提交到 Git。
+- Firebase AI Logic 使用 Gemini Developer API，並以 Firebase App Check 保護網站請求。網站使用 reCAPTCHA Enterprise（Fraud Defense）評估金鑰。
+- 將 reCAPTCHA Enterprise **site key**（公開值）填入 `firebase-config.js` 的 `appCheckSiteKey` 欄位。不要把任何私密金鑰或服務帳戶憑證放進前端。
 - Gemini 使用者每日上限由 Firestore 規則限制。更新規則時只部署規則：`firebase deploy --only firestore:rules`。
 
 ### Firebase AI Logic 設定
 
 1. Firebase Console → **AI Services → AI Logic** → **Get started**，選擇 **Gemini Developer API**。
-2. Firebase Console → **Security → App Check**，為已部署在 GitHub Pages 的網站註冊 reCAPTCHA v3，允許網域 `abbiechu.github.io`。
-3. 把 reCAPTCHA v3 site key 加到 `firebase-config.js` 的 `appCheckSiteKey`，然後更新網站。
+2. Firebase Console → **Security → App Check**，為已部署在 GitHub Pages 的網站註冊 reCAPTCHA Enterprise，並在 Google Cloud Fraud Defense 建立網頁評估金鑰，允許網域 `abbiechu.github.io`。
+3. 把 reCAPTCHA Enterprise site key 加到 `firebase-config.js` 的 `appCheckSiteKey`；前端使用 `ReCaptchaEnterpriseProvider` 初始化 App Check。
 4. 在專案資料夾執行 `firebase deploy --only firestore:rules` 更新每日呼叫上限規則。
 
 Gemini Developer API 的免費層可在 Spark 方案使用，不必連結 Cloud Billing；免費額度及可用模型會受 Google 限制。若 Firebase 專案連結了 Cloud Billing，Gemini API 用量會依付費層計費。

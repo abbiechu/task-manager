@@ -65,7 +65,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
 import { getFirestore, doc, collection, getDoc, getDocs, addDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, runTransaction, query, where, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
-import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app-check.js";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app-check.js";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-ai.js";
 
 const firebaseConfig = window.FIREBASE_CONFIG || null;
@@ -128,7 +128,7 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
     const firebaseApp = initializeApp(firebaseWebConfig);
     if (appCheckSiteKey) {
       initializeAppCheck(firebaseApp, {
-        provider: new ReCaptchaV3Provider(appCheckSiteKey),
+        provider: new ReCaptchaEnterpriseProvider(appCheckSiteKey),
         isTokenAutoRefreshEnabled: true
       });
       const firebaseAI = getAI(firebaseApp, { backend: new GoogleAIBackend() });

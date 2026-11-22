@@ -15,7 +15,7 @@
 /* Firebase authentication gate */
 .auth-gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 0%,#e4ebe4 0%,#f4f2ec 55%);display:grid;place-items:center;padding:22px}.auth-card{width:min(420px,100%);background:var(--paper);border:1px solid rgba(230,226,217,.9);border-radius:26px;padding:34px 30px;box-shadow:0 24px 70px rgba(59,65,57,.12);text-align:center}.auth-brand{display:flex;justify-content:center;margin-bottom:17px}.auth-mark{width:54px;height:54px;border-radius:19px;background:var(--sage-light);display:grid;place-items:center;font-size:28px}.auth-card h1{font-size:23px;margin:0;letter-spacing:-.03em}.auth-card p{font-size:13px;line-height:1.75;color:var(--muted);margin:11px 0 22px}.google-btn{width:100%;height:48px;display:flex;align-items:center;justify-content:center;gap:11px;border:1px solid #deded9;background:#fff;border-radius:13px;font-weight:600;font-size:13px;transition:.18s}.google-btn:hover{background:#f8f8f5;box-shadow:0 3px 12px #343c3a12}.google-logo{width:18px;height:18px}.auth-message{min-height:18px;margin-top:12px!important;margin-bottom:0!important;font-size:11px!important;color:#9a6d5b!important}.auth-note{margin-top:20px;padding-top:15px;border-top:1px solid var(--line);font-size:10px;color:#999e97;line-height:1.6}.account-chip{display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:4px 5px 4px 12px}.account-chip img{width:30px;height:30px;border-radius:50%;object-fit:cover}.account-chip span{max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--muted)}.signout-btn{background:#f1efe9;border-radius:9px;padding:7px 9px;font-size:10px;color:#69736c}.auth-hidden{display:none!important}
 @media(max-width:480px){.auth-card{padding:29px 23px}.account-chip span{display:none}.topbar{gap:8px}}
-.sync-status{font-size:10px;color:#748579;white-space:nowrap}.sync-status.error{color:#b06e5c}.empty-tasks{padding:20px 0;text-align:center;color:var(--muted);font-size:12px}.profile{flex-wrap:wrap;justify-content:flex-end}.task-actions{display:flex;gap:4px}.task-action{background:transparent;color:#929890;padding:5px;border-radius:7px;font-size:11px}.task-action:hover{background:#f1f0eb;color:#526357}.task-action:disabled{opacity:.35;cursor:default}.recommend:disabled,.primary:disabled{opacity:.5;cursor:default}.milestone .bar i{transition:width .35s ease}
+.sync-status{font-size:10px;color:#748579;white-space:nowrap}.sync-status.error{color:#b06e5c}.empty-tasks{padding:20px 0;text-align:center;color:var(--muted);font-size:12px}.profile{flex-wrap:wrap;justify-content:flex-end}.task-actions{display:flex;gap:4px}.task-action{background:transparent;color:#929890;padding:5px;border-radius:7px;font-size:11px}.task-action:hover{background:#f1f0eb;color:#526357}.task-action:disabled{opacity:.35;cursor:default}.recommend:disabled,.primary:disabled,.secondary:disabled{opacity:.5;cursor:not-allowed}.milestone .bar i{transition:width .35s ease}.action-hint{margin:8px 0 0;padding:10px 12px;border-radius:12px;background:#f4f2ec;color:#737c73;font-size:12px;line-height:1.55}
 </style>
 </head>
 <body>
@@ -1051,7 +1051,20 @@ function showRecommendations(gapStart, gapEnd) {
     : '<div class="empty-tasks">這段空堂沒有合適的未安排待辦。可新增短一點的任務，或選另一段空堂。</div>';
   const availableTasks = tasks.filter(task => !task.completed && task.plannedDate !== todayKey());
   const gapMinutes = Math.max(0, end - start);
-  openModal(`<div class="modal-head"><h2>空堂待辦建議</h2><button class="close" data-close>×</button></div><p>依照空堂長度安排任務，前後保留 10 分鐘緩衝，任務間保留 5 分鐘。</p><button class="secondary" id="geminiSuggest" ${geminiModel && availableTasks.length && gapMinutes >= 15 ? '' : 'disabled'}>✨ 請 Gemini 協助挑選</button><p class="subtle" style="margin:7px 0 0">使用 AI 會將待辦名稱、預估時間與空堂長度傳送給 Google。Gemini 免費層的內容可能用於改進 Google 產品。</p><p id="geminiNote" class="subtle" aria-live="polite">${geminiModel ? '' : '完成 Firebase AI Logic 與 App Check 設定後即可使用 Gemini。'}</p><div class="preview" id="planPreview">${rows}</div><button class="primary" id="acceptPlan" ${currentRecommendationPlan.length ? '' : 'disabled'}>加入今日安排</button><button class="secondary" id="adjustPlan">先不安排</button>`);
+  const geminiDisabledReason = !geminiModel
+    ? '完成 Firebase AI Logic 與 App Check 設定後即可使用 Gemini。'
+    : gapMinutes < 15
+      ? '這段空堂較短，暫時無法安排任務。'
+      : !availableTasks.length
+        ? '目前沒有未完成且尚未安排的待辦。先新增一項，Gemini 就能幫你挑選。'
+        : '';
+  const addTaskAction = availableTasks.length ? '' : '<button class="secondary" id="addTaskFromSuggestion">＋ 新增一項待辦</button>';
+  openModal(`<div class="modal-head"><h2>空堂待辦建議</h2><button class="close" data-close>×</button></div><p>依照空堂長度安排任務，前後保留 10 分鐘緩衝，任務間保留 5 分鐘。</p><button class="secondary" id="geminiSuggest" ${geminiModel && availableTasks.length && gapMinutes >= 15 ? '' : 'disabled'}>✨ 請 Gemini 協助挑選</button><p class="subtle" style="margin:7px 0 0">使用 AI 會將待辦名稱、預估時間與空堂長度傳送給 Google。Gemini 免費層的內容可能用於改進 Google 產品。</p><p id="geminiNote" class="action-hint" aria-live="polite">${geminiDisabledReason}</p>${addTaskAction}<div class="preview" id="planPreview">${rows}</div><button class="primary" id="acceptPlan" ${currentRecommendationPlan.length ? '' : 'disabled'}>加入今日安排</button><button class="secondary" id="adjustPlan">先不安排</button>`);
+  const addTaskFromSuggestion = $('#addTaskFromSuggestion');
+  if (addTaskFromSuggestion) addTaskFromSuggestion.onclick = () => {
+    closeModal();
+    $('#addTaskBtn').click();
+  };
   $('#geminiSuggest').onclick = async () => {
     const button = $('#geminiSuggest');
     if (!geminiModel || !currentUser) { toast('請先完成 Firebase AI Logic 與 App Check 設定'); return; }

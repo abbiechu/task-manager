@@ -1167,16 +1167,23 @@ function showRecommendations(gapStart, gapEnd) {
     } catch (error) {
       clearTimeout(slowGeminiHintTimer);
       console.error('Gemini suggestions failed', error);
-      const errorText = `${error?.code || ''} ${error?.message || ''}`.toLowerCase();
+      const errorCode = String(error?.code || error?.status || '').trim();
+      const errorText = `${errorCode} ${error?.message || ''}`.toLowerCase();
       const message = error?.message === 'gemini-daily-limit'
         ? '今天的 Gemini 建議次數已達上限，請使用一般空堂建議。'
         : error?.message === 'empty-gemini-task'
           ? 'Gemini 這次沒有提供可用任務，請再試一次。'
-        : errorText.includes('app check') || errorText.includes('appcheck') || errorText.includes('403')
+        : errorText.includes('resource-exhausted') || errorText.includes('quota') || errorText.includes('429') || errorText.includes('rate limit')
+          ? 'Gemini 服務的免費額度或請求頻率限制暫時已達上限，請稍後再試，避免連續重按。'
+          : errorText.includes('deadline-exceeded') || errorText.includes('timeout')
+            ? 'Gemini 回覆逾時，請檢查網路後再試。'
+            : errorText.includes('unavailable') || errorText.includes('503')
+              ? 'Google Gemini 服務目前較忙，請稍後再試。'
+              : errorText.includes('app check') || errorText.includes('appcheck') || errorText.includes('403')
           ? 'App Check 尚未通過驗證，請確認 reCAPTCHA 設定與網站網域。'
           : errorText.includes('api has not been used') || errorText.includes('not enabled')
             ? '請先在 Firebase Console 的 AI Logic 啟用 Gemini Developer API。'
-            : 'Gemini 暫時無法提供建議，請稍後再試。';
+            : `Gemini 暫時無法提供建議${errorCode ? `（錯誤代碼：${errorCode}）` : ''}，請稍後再試。`;
       $('#geminiNote').textContent = message;
       toast(message);
       button.disabled = false;

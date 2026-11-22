@@ -135,14 +135,18 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
       geminiModel = getGenerativeModel(firebaseAI, {
         model: 'gemini-3.8-flash',
         generationConfig: {
+          maxOutputTokens: 192,
+          thinkingConfig: { thinkingLevel: 'LOW' },
           responseMimeType: 'application/json',
           responseSchema: {
             type: 'OBJECT',
             properties: {
               selectedKeys: { type: 'ARRAY', items: { type: 'STRING' } },
+              title: { type: 'STRING' },
+              estimatedMinutes: { type: 'INTEGER' },
               note: { type: 'STRING' }
             },
-            required: ['selectedKeys', 'note']
+            required: ['note']
           }
         }
       });
@@ -1074,6 +1078,7 @@ function showRecommendations(gapStart, gapEnd) {
     button.disabled = true;
     button.textContent = 'Gemini 思考中…';
     $('#geminiNote').textContent = availableTasks.length ? '正在依照空堂長度挑選合適的待辦…' : '正在依照空堂長度想一項新任務…';
+    let slowGeminiHintTimer;
     try {
       const keyedTasks = availableTasks.map((task, index) => ({
         key: String(index), task, estimatedMinutes: estimateTaskMinutes(task)
@@ -1101,8 +1106,23 @@ function showRecommendations(gapStart, gapEnd) {
         'note 請用繁體中文寫一句不超過 60 字的溫和安排理由。',
         JSON.stringify({ gapMinutes })
       ].join('\n');
-      const result = await geminiModel.generateContent(prompt);
-      const responseText = (result.response.text() || '{}').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+      slowGeminiHintTimer = setTimeout(() => {
+        const note = $('#geminiNote');
+        if (note) note.textContent = 'Gemini 正在準備建議，首次呼叫或網路較慢時可能需要多等一下，請不用重複點擊。';
+      }, 8000);
+      const streamResult = await geminiModel.generateContentStream(prompt);
+      let receivedText = '';
+      for await (const chunk of streamResult.stream) {
+        receivedText += chunk.text();
+        if (receivedText) {
+          clearTimeout(slowGeminiHintTimer);
+          const note = $('#geminiNote');
+          if (note) note.textContent = '已收到 Gemini 回覆，正在整理建議…';
+        }
+      }
+      const response = await streamResult.response;
+      clearTimeout(slowGeminiHintTimer);
+      const responseText = (response.text() || receivedText || '{}').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
       const generated = JSON.parse(responseText);
       let cursor = start;
       currentRecommendationPlan = [];
@@ -1145,6 +1165,7 @@ function showRecommendations(gapStart, gapEnd) {
       $('#acceptPlan').disabled = !currentRecommendationPlan.length;
       button.textContent = currentRecommendationPlan[0]?.isNewTask ? '✨ 再請 Gemini 想一項' : '✨ 再請 Gemini 挑一次';
     } catch (error) {
+      clearTimeout(slowGeminiHintTimer);
       console.error('Gemini suggestions failed', error);
       const errorText = `${error?.code || ''} ${error?.message || ''}`.toLowerCase();
       const message = error?.message === 'gemini-daily-limit'

@@ -669,11 +669,16 @@ async function refreshActivityStats() {
   renderWeekSummary();
   renderMilestones();
   persist();
+  if (!currentUser || (currentProfile.weekDays === weekDays && currentProfile.streak === streak)) return;
+  const previousStats = { weekDays: currentProfile.weekDays, streak: currentProfile.streak };
+  currentProfile.weekDays = weekDays;
+  currentProfile.streak = streak;
   try {
     await setDoc(profileRef(), { weekDays, streak, updatedAt: serverTimestamp() }, { merge: true });
   } catch (error) {
     console.error('Activity stats save failed', error);
-    setSyncStatus('同步失敗', true);
+    Object.assign(currentProfile, previousStats);
+    setSyncStatus('進度同步失敗', true);
   }
 }
 
@@ -712,10 +717,15 @@ async function loadCloudData(user) {
 
   currentProfile = { ...profile, ...normalizeIslandProfile(profile) };
   if (!Array.isArray(profile.decorInventory) || !islandScenes.some(scene => scene.id === profile.activeScene) || !profile.equippedPetId) {
-    updateDoc(userRef, {
-      ...normalizeIslandProfile(profile),
-      updatedAt: serverTimestamp()
-    }).catch(error => console.warn('Island profile migration failed', error));
+    try {
+      await updateDoc(userRef, {
+        ...normalizeIslandProfile(profile),
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Island profile migration failed', error);
+      setSyncStatus('收藏資料同步失敗', true);
+    }
   }
   points = Number(profile.points) || 0;
   completedTasks = Number(profile.completedTasks) || 0;

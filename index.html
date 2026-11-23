@@ -19,6 +19,7 @@
 .milestone-rewards-link{margin-top:16px;padding:10px 12px;border-radius:12px;background:#f2f4ef;color:#6c8273;font-size:11px;font-weight:700;width:100%;text-align:left}.milestone-rewards-link:hover{background:var(--sage-light)}.modal{max-height:calc(100dvh - 36px);overflow-y:auto}.reward-summary{display:flex;gap:8px;margin:12px 0}.reward-summary span{flex:1;text-align:center;padding:10px 6px;border-radius:12px;background:#f3f1e9;color:#758678;font-size:11px}.reward-catalog-heading{margin:16px 2px 8px;font-size:12px;color:#778a7b}.reward-catalog-list{display:grid;gap:8px}.reward-catalog-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:9px;padding:11px;border-radius:14px;background:#f6f4ee}.reward-catalog-item.unlocked{background:#eaf0e9}.reward-catalog-emoji{font-size:24px;text-align:center}.reward-catalog-info strong{display:block;font-size:12px}.reward-catalog-info small{display:block;margin-top:4px;color:var(--muted);font-size:10px}.reward-catalog-progress{display:flex;align-items:center;gap:8px;margin-top:7px}.reward-catalog-progress .bar{height:5px;flex:1}.reward-catalog-progress .bar i{transition:width .35s ease}.reward-catalog-progress small{white-space:nowrap;margin:0}.reward-catalog-status{font-size:10px;color:var(--muted);white-space:nowrap}.reward-catalog-item.unlocked .reward-catalog-status{color:#607567;font-weight:700}
 .milestone-rewards-link{display:flex;align-items:center;gap:12px;min-height:70px;margin-top:16px;padding:13px 15px;border:1px solid #d8e2d8;border-radius:16px;background:linear-gradient(110deg,#e7eee7,#f2f3eb);color:#536b5a;font-size:13px;text-align:left;box-shadow:0 4px 12px rgba(74,99,79,.08);transition:transform .18s ease,box-shadow .18s ease}.milestone-rewards-link:hover{background:linear-gradient(110deg,#dfe9df,#ecefe4);transform:translateY(-1px);box-shadow:0 7px 16px rgba(74,99,79,.13)}.milestone-rewards-link:focus-visible{outline:3px solid #9bb39f;outline-offset:2px}.milestone-rewards-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:13px;background:#fffefa;font-size:23px}.milestone-rewards-copy{display:grid;gap:4px;min-width:0}.milestone-rewards-copy strong{font-size:13px}.milestone-rewards-copy small{font-size:10px;color:#748477;font-weight:500}.milestone-rewards-arrow{margin-left:auto;font-size:10px;white-space:nowrap;color:#728575}
 .reward-shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.reward-shop-item{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;padding:13px 9px;border:1px solid var(--line);border-radius:16px;background:#faf9f4;text-align:center}.reward-shop-item.owned{background:#eaf0e9;border-color:#dbe5dc}.reward-shop-emoji{font-size:30px;line-height:1.2}.reward-shop-item strong{font-size:12px}.reward-shop-price{font-size:10px;color:#927b43;min-height:14px}.reward-shop-item.owned .reward-shop-price{color:#607567}.reward-shop-action{width:100%;min-height:34px;padding:7px 5px;border-radius:10px;background:var(--sage);color:white;font-size:10px;font-weight:700}.reward-shop-action:disabled{background:#e9e7df;color:#8c9189;cursor:not-allowed}
+.island-pet,.plant{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;z-index:3}.island-pet{left:47%;top:60%;right:auto;bottom:auto;transform:translate(-50%,-50%)}.plant{left:74%;top:72%;right:auto;bottom:auto;transform:translate(-50%,-50%)}.island-pet.island-dragging,.plant.island-dragging{cursor:grabbing;animation:none}.island-pet:focus-visible,.plant:focus-visible{outline:2px solid #718879;outline-offset:4px;border-radius:8px}@keyframes bob{50%{translate:0 -7px}}
 </style>
 </head>
 <body>
@@ -55,7 +56,7 @@
     <aside class="right-col">
       <section class="card streak-card"><div class="streak-top"><div><div class="streak-num"><span id="streak">0</span><small> 天</small></div><div class="streak-copy">連續完成日</div></div><div class="streak-flame">🌤️</div></div><div class="week-dots" id="weekDots"></div></section>
       <div class="stat-grid"><div class="stat"><div class="stat-icon">🌱</div><strong id="weekDays">0 / 7</strong><span>本週完成天數</span></div><div class="stat"><div class="stat-icon">✨</div><strong id="taskTotal">0</strong><span>累積完成任務</span></div></div>
-      <section class="card island-card"><div class="island-head"><h2>我的小島</h2><button class="edit" id="decorateBtn">佈置　↗</button></div><div class="island-scene"><div class="sun"></div><div class="hill one"></div><div class="hill two"></div><div class="plant" id="islandDecor">🪴</div><div class="island-pet" id="islandPet">🐻</div></div><div class="scene-caption"><span>熊熊的午後小島</span><span>等級 1 · 安心角落</span></div></section>
+      <section class="card island-card"><div class="island-head"><h2>我的小島</h2><button class="edit" id="decorateBtn">佈置　↗</button></div><div class="island-scene"><div class="sun"></div><div class="hill one"></div><div class="hill two"></div><div class="plant" id="islandDecor">🪴</div><div class="island-pet" id="islandPet">🐻</div></div><div class="scene-caption"><span>熊熊的午後小島</span><span>按住小動物或擺設即可移動</span></div></section>
       <section class="card milestone"><div class="milestone-title"><h2>慢慢累積的里程碑</h2><a id="journeyBtn">21 天練習 ↗</a></div><div class="milestone-progress"><div class="bar-top"><span id="petMilestoneLabel">小動物收藏</span><span id="petMilestoneCount">1 / 10 隻</span></div><div class="bar"><i id="petMilestoneBar" style="width:0%"></i></div></div><div class="reward"><div class="reward-icon" id="petMilestoneEmoji">🐱</div><div><strong id="petMilestoneName">橘貓兌換</strong><small id="petMilestoneHint">任選收藏兌換・120 點</small></div><span class="lock" id="petMilestoneLock">🔒</span></div><div class="milestone-progress"><div class="bar-top"><span id="decorMilestoneLabel">擺設收藏</span><span id="decorMilestoneCount">1 / 30 件</span></div><div class="bar"><i id="decorMilestoneBar" style="width:0%;background:#c6a86c"></i></div></div><button class="milestone-rewards-link" id="rewardsCatalogBtn"><span class="milestone-rewards-icon">🎁</span><span class="milestone-rewards-copy"><strong>使用點數挑選收藏</strong><small>10 種動物・30 件擺設・任選兌換</small></span><span class="milestone-rewards-arrow">查看　↗</span></button></section>
     </aside>
   </main>
@@ -323,6 +324,7 @@ function startLiveSync(user) {
     $('#weekDays').textContent = `${weekDays} / 7`;
     if (currentProfile.equippedPet) $('#islandPet').textContent = currentProfile.equippedPet;
     if (currentProfile.equippedDecor) $('#islandDecor').textContent = currentProfile.equippedDecor;
+    applyIslandPositions();
     renderMilestones();
     setSyncStatus('雲端已同步');
   }, error => {
@@ -621,6 +623,7 @@ async function loadCloudData(user) {
   updateCounters();
   if (profile.equippedPet) $('#islandPet').textContent = profile.equippedPet;
   if (profile.equippedDecor) $('#islandDecor').textContent = profile.equippedDecor;
+  applyIslandPositions();
   currentProfile.unlockedDecor = profile.unlockedDecor || ['🪴'];
   renderTaskList();
   renderSchedule();
@@ -1304,6 +1307,130 @@ async function saveAppearance(field, value) {
   currentProfile[field] = value;
 }
 
+function applyIslandPositions() {
+  const positions = [
+    { id: 'islandPet', field: 'equippedPetPosition', fallback: { x: 0.47, y: 0.60 }, label: '小動物' },
+    { id: 'islandDecor', field: 'equippedDecorPosition', fallback: { x: 0.74, y: 0.72 }, label: '擺設' }
+  ];
+  positions.forEach(({ id, field, fallback, label }) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+    const saved = currentProfile[field] || fallback;
+    const x = Number.isFinite(Number(saved.x)) ? Math.min(.95, Math.max(.05, Number(saved.x))) : fallback.x;
+    const y = Number.isFinite(Number(saved.y)) ? Math.min(.9, Math.max(.1, Number(saved.y))) : fallback.y;
+    element.style.left = `${x * 100}%`;
+    element.style.top = `${y * 100}%`;
+    element.style.right = 'auto';
+    element.style.bottom = 'auto';
+    element.style.transform = 'translate(-50%,-50%)';
+    element.tabIndex = 0;
+    element.title = '按住拖曳移動；也可用方向鍵微調';
+    element.setAttribute('role', 'button');
+    element.setAttribute('aria-label', `移動小島上的${label}`);
+  });
+}
+
+function persistIslandPosition(field, position) {
+  if (!currentUser) return;
+  updateDoc(profileRef(), { [field]: position, updatedAt: serverTimestamp() }).then(() => {
+    currentProfile[field] = position;
+    setSyncStatus('雲端已同步');
+    toast('小島位置已儲存 ✨');
+  }).catch(error => {
+    console.error('Island position save failed', error);
+    setSyncStatus('位置同步失敗', true);
+    toast('位置暫時沒有同步，請檢查網路後重試');
+  });
+}
+
+function setupIslandDrag() {
+  const scene = document.querySelector('.island-scene');
+  if (!scene) return;
+  const items = [
+    { id: 'islandPet', field: 'equippedPetPosition', fallback: { x: .47, y: .60 } },
+    { id: 'islandDecor', field: 'equippedDecorPosition', fallback: { x: .74, y: .72 } }
+  ];
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+  items.forEach(({ id, field, fallback }) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+    let activePointer = null;
+    let startPoint = null;
+    let startPosition = null;
+    let pointerOffset = { x: 0, y: 0 };
+    let keyboardSaveTimer = null;
+    let moved = false;
+    const readPosition = () => ({
+      x: Number.isFinite(parseFloat(element.style.left)) ? parseFloat(element.style.left) / 100 : fallback.x,
+      y: Number.isFinite(parseFloat(element.style.top)) ? parseFloat(element.style.top) / 100 : fallback.y
+    });
+    const positionFromPointer = event => {
+      const bounds = scene.getBoundingClientRect();
+      const itemBounds = element.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return fallback;
+      const marginX = Math.min(.48, itemBounds.width / 2 / bounds.width);
+      const marginY = Math.min(.48, itemBounds.height / 2 / bounds.height);
+      return {
+        x: clamp((event.clientX - pointerOffset.x - bounds.left) / bounds.width, marginX, 1 - marginX),
+        y: clamp((event.clientY - pointerOffset.y - bounds.top) / bounds.height, marginY, 1 - marginY)
+      };
+    };
+    const apply = position => {
+      element.style.left = `${position.x * 100}%`;
+      element.style.top = `${position.y * 100}%`;
+    };
+    element.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      event.preventDefault();
+      activePointer = event.pointerId;
+      startPoint = { x: event.clientX, y: event.clientY };
+      startPosition = readPosition();
+      const itemBounds = element.getBoundingClientRect();
+      pointerOffset = {
+        x: event.clientX - (itemBounds.left + itemBounds.width / 2),
+        y: event.clientY - (itemBounds.top + itemBounds.height / 2)
+      };
+      moved = false;
+      element.classList.add('island-dragging');
+      element.setPointerCapture(event.pointerId);
+    });
+    element.addEventListener('pointermove', event => {
+      if (activePointer !== event.pointerId) return;
+      if (Math.hypot(event.clientX - startPoint.x, event.clientY - startPoint.y) > 3) moved = true;
+      if (moved) apply(positionFromPointer(event));
+    });
+    const finishDrag = (event, cancelled = false) => {
+      if (activePointer !== event.pointerId) return;
+      const position = cancelled || !moved ? startPosition : positionFromPointer(event);
+      apply(position);
+      activePointer = null;
+      element.classList.remove('island-dragging');
+      if (moved && !cancelled) {
+        clearTimeout(keyboardSaveTimer);
+        persistIslandPosition(field, position);
+      }
+    };
+    element.addEventListener('pointerup', event => finishDrag(event));
+    element.addEventListener('pointercancel', event => finishDrag(event, true));
+    element.addEventListener('keydown', event => {
+      const step = event.shiftKey ? .05 : .02;
+      const position = readPosition();
+      if (event.key === 'ArrowLeft') position.x -= step;
+      else if (event.key === 'ArrowRight') position.x += step;
+      else if (event.key === 'ArrowUp') position.y -= step;
+      else if (event.key === 'ArrowDown') position.y += step;
+      else return;
+      event.preventDefault();
+      position.x = clamp(position.x, .05, .95);
+      position.y = clamp(position.y, .1, .9);
+      apply(position);
+      clearTimeout(keyboardSaveTimer);
+      keyboardSaveTimer = setTimeout(() => persistIslandPosition(field, readPosition()), 450);
+    });
+  });
+  applyIslandPositions();
+}
+
 $('#decorateBtn').onclick = () => openRewardCatalog('pet');
 function openRewardCatalog(tab = 'pet') {
   const kind = tab === 'decor' ? 'decor' : 'pet';
@@ -1407,6 +1534,7 @@ $('#journeyBtn').onclick=()=>{
   openModal(`<div class="modal-head"><h2>21 天，慢慢建立節奏</h2><button class="close" data-close>×</button></div><p>這是一段自選練習旅程，不是期限或考核。漏掉一天也不會失去進度；習慣需要的時間因人而異。</p><div class="habit-box"><strong>🌿 每天只做一個小步驟</strong><p>打開今日待辦 → 挑選一件重要小事 → 完成後回顧。完成當日所有待辦會累積一天，進度不會因休息而倒退。</p></div><div class="bar-top"><span>已累積的完成日</span><span>${practiceDays} / 21 天</span></div><div class="bar"><i style="width:${progress}%"></i></div><button class="primary" style="margin-top:17px" data-close>${practiceDays === 21 ? '完成這段練習 ✨' : `再累積 ${21 - practiceDays} 天`}</button>`);
 };
 updateTodayLabel();
+setupIslandDrag();
 </script>
 </body>
 </html>

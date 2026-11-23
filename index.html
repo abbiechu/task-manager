@@ -365,7 +365,7 @@ function renderTaskList() {
     task.className = `task${taskData.completed ? ' done' : ''}`;
     task.dataset.id = taskData.id;
     task.dataset.points = taskData.points || 10;
-    task.innerHTML = `<button class="check" aria-label="標記完成"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title"></div><div class="task-meta"><span class="tag"></span><span class="task-time"></span></div></div><div class="points">+10 點</div><div class="task-actions"><button class="task-action edit-task" aria-label="編輯待辦" title="編輯" ${taskData.completed ? 'disabled' : ''}>編輯</button><button class="task-action delete-task" aria-label="刪除待辦" title="刪除" ${taskData.completed ? 'disabled' : ''}>刪除</button></div>`;
+    task.innerHTML = `<button class="check" aria-label="${taskData.completed ? '取消完成' : '標記完成'}" title="${taskData.completed ? '取消完成' : '標記完成'}"><svg viewBox="0 0 16 16" fill="none"><path d="m3 8 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div><div class="task-title"></div><div class="task-meta"><span class="tag"></span><span class="task-time"></span></div></div><div class="points">+10 點</div><div class="task-actions"><button class="task-action edit-task" aria-label="編輯待辦" title="編輯" ${taskData.completed ? 'disabled' : ''}>編輯</button><button class="task-action delete-task" aria-label="刪除待辦" title="刪除" ${taskData.completed ? 'disabled' : ''}>刪除</button></div>`;
     task.querySelector('.task-title').textContent = taskData.title || '未命名待辦';
     task.querySelector('.tag').textContent = taskData.category || '自訂';
     task.querySelector('.task-time').textContent = taskData.plannedDate === todayKey() && taskData.plannedStart
@@ -671,7 +671,13 @@ async function awardDailyBonus() {
     const awardResult = await runTransaction(db, async transaction => {
       const snapshot = await transaction.get(profileRef());
       const dayRef = doc(db, 'users', currentUser.uid, 'activityDays', todayKey());
-      const daySnapshot = await transaction.get(dayRef);
+      const todayTaskQuery = query(tasksRef(), where('dateKey', '==', todayKey()));
+      const [daySnapshot, taskSnapshot] = await Promise.all([
+        transaction.get(dayRef), transaction.get(todayTaskQuery)
+      ]);
+      if (!taskSnapshot.docs.length || taskSnapshot.docs.some(task => !task.data().completed)) {
+        return { awarded: false, newActivityDay: false, cancelled: true };
+      }
       const awarded = snapshot.exists() && snapshot.data().dailyBonusDate !== todayKey();
       if (awarded) {
         transaction.update(profileRef(), {
@@ -685,6 +691,10 @@ async function awardDailyBonus() {
       }
       return { awarded, newActivityDay: !daySnapshot.exists() };
     });
+    if (awardResult.cancelled) {
+      allDayBonus = false;
+      return;
+    }
     allDayBonus = true;
     if (awardResult.newActivityDay) activityDates.add(todayKey());
     if (awardResult.awarded) {
@@ -709,45 +719,73 @@ async function awardDailyBonus() {
 function bindTask(taskElement) {
   taskElement.querySelector('.check').addEventListener('click', async () => {
     const taskData = tasks.find(item => item.id === taskElement.dataset.id);
-    if (!taskData || taskData.completed || taskElement.dataset.saving) return;
+    if (!taskData || taskElement.dataset.saving) return;
+    const targetCompleted = !taskData.completed;
+    const taskPoints = Number(taskData.points) || 10;
     taskElement.dataset.saving = 'true';
     taskElement.querySelector('.check').disabled = true;
     setSyncStatus('儲存中…');
     try {
       const taskRef = doc(db, 'users', currentUser.uid, 'tasks', taskData.id);
-      const completed = await runTransaction(db, async transaction => {
-        const [taskSnapshot, profileSnapshot] = await Promise.all([
-          transaction.get(taskRef), transaction.get(profileRef())
+      const result = await runTransaction(db, async transaction => {
+        const dayRef = doc(db, 'users', currentUser.uid, 'activityDays', todayKey());
+        const [taskSnapshot, profileSnapshot, daySnapshot] = await Promise.all([
+          transaction.get(taskRef), transaction.get(profileRef()), transaction.get(dayRef)
         ]);
-        if (!taskSnapshot.exists() || taskSnapshot.data().completed) return false;
+        if (!taskSnapshot.exists()) return { changed: false };
+        const wasCompleted = taskSnapshot.data().completed === true;
+        if (wasCompleted === targetCompleted) return { changed: false };
         const profileData = profileSnapshot.exists() ? profileSnapshot.data() : {};
         transaction.update(taskRef, {
-          completed: true,
-          completedAt: serverTimestamp(),
+          completed: targetCompleted,
+          completedAt: targetCompleted ? serverTimestamp() : null,
           updatedAt: serverTimestamp()
         });
+        const bonusRevoked = !targetCompleted && profileData.dailyBonusDate === todayKey();
+        const nextPoints = targetCompleted
+          ? (Number(profileData.points) || 0) + taskPoints
+          : Math.max(0, (Number(profileData.points) || 0) - taskPoints - (bonusRevoked ? 20 : 0));
+        const nextCompletedTasks = targetCompleted
+          ? (Number(profileData.completedTasks) || 0) + 1
+          : Math.max(0, (Number(profileData.completedTasks) || 0) - 1);
         transaction.set(profileRef(), {
-          points: (Number(profileData.points) || 0) + (Number(taskData.points) || 10),
-          completedTasks: (Number(profileData.completedTasks) || 0) + 1,
+          points: nextPoints,
+          completedTasks: nextCompletedTasks,
+          ...(bonusRevoked ? { dailyBonusDate: '' } : {}),
           updatedAt: serverTimestamp()
         }, { merge: true });
-        return true;
+        if (bonusRevoked && daySnapshot.exists()) transaction.delete(dayRef);
+        return { changed: true, points: nextPoints, completedTasks: nextCompletedTasks, bonusRevoked };
       });
-      if (!completed) {
+      if (!result.changed) {
         await loadCloudData(currentUser);
         return;
       }
-      taskData.completed = true;
-      points += Number(taskData.points) || 10;
-      completedTasks += 1;
+      taskData.completed = targetCompleted;
+      points = result.points;
+      completedTasks = result.completedTasks;
       currentProfile.points = points;
       currentProfile.completedTasks = completedTasks;
-      taskElement.classList.add('done');
+      if (result.bonusRevoked) {
+        allDayBonus = false;
+        currentProfile.dailyBonusDate = '';
+        activityDates.delete(todayKey());
+      }
+      renderTaskList();
+      renderSchedule();
       updateCounters();
       persist();
       setSyncStatus('雲端已同步');
-      toast(`任務完成！獲得 ${taskData.points || 10} 點 ✨`);
-      updateProgress();
+      if (result.bonusRevoked) await refreshActivityStats();
+      if (targetCompleted) {
+        toast(`任務完成！獲得 ${taskPoints} 點 ✨`);
+        updateProgress();
+      } else {
+        toast(result.bonusRevoked
+          ? `已取消完成，${taskPoints} 點與今日全數完成獎勵已扣回。`
+          : `已取消完成，${taskPoints} 點已扣回。`);
+        updateProgress(false);
+      }
     } catch (error) {
       console.error('Task completion save failed', error);
       setSyncStatus('同步失敗', true);

@@ -1167,23 +1167,36 @@ function showRecommendations(gapStart, gapEnd) {
     } catch (error) {
       clearTimeout(slowGeminiHintTimer);
       console.error('Gemini suggestions failed', error);
-      const errorCode = String(error?.code || error?.status || '').trim();
-      const errorText = `${errorCode} ${error?.message || ''}`.toLowerCase();
-      const message = error?.message === 'gemini-daily-limit'
-        ? '今天的 Gemini 建議次數已達上限，請使用一般空堂建議。'
-        : error?.message === 'empty-gemini-task'
-          ? 'Gemini 這次沒有提供可用任務，請再試一次。'
-        : errorText.includes('resource-exhausted') || errorText.includes('quota') || errorText.includes('429') || errorText.includes('rate limit')
-          ? 'Gemini 服務的免費額度或請求頻率限制暫時已達上限，請稍後再試，避免連續重按。'
-          : errorText.includes('deadline-exceeded') || errorText.includes('timeout')
-            ? 'Gemini 回覆逾時，請檢查網路後再試。'
-            : errorText.includes('unavailable') || errorText.includes('503')
-              ? 'Google Gemini 服務目前較忙，請稍後再試。'
-              : errorText.includes('app check') || errorText.includes('appcheck') || errorText.includes('403')
-          ? 'App Check 尚未通過驗證，請確認 reCAPTCHA 設定與網站網域。'
-          : errorText.includes('api has not been used') || errorText.includes('not enabled')
-            ? '請先在 Firebase Console 的 AI Logic 啟用 Gemini Developer API。'
-            : `Gemini 暫時無法提供建議${errorCode ? `（錯誤代碼：${errorCode}）` : ''}，請稍後再試。`;
+      const httpStatus = Number(error?.customErrorData?.status || error?.customData?.status || error?.status || 0);
+      const errorCode = String(error?.code || '').trim();
+      const errorText = `${errorCode} ${httpStatus} ${error?.message || ''} ${error?.customErrorData?.statusText || ''}`.toLowerCase();
+      let message;
+      if (error?.message === 'gemini-daily-limit') message = '今天的 Gemini 建議次數已達上限，請使用一般空堂建議。';
+      else if (error?.message === 'empty-gemini-task') message = 'Gemini 這次沒有提供可用任務，請再試一次。';
+      else if (httpStatus === 429 || errorText.includes('resource-exhausted') || errorText.includes('quota') || errorText.includes('rate limit')) {
+        message = 'Gemini 服務的免費額度或請求頻率限制暫時已達上限，請稍後再試，避免連續重按。';
+      } else if (errorText.includes('deadline-exceeded') || errorText.includes('timeout')) {
+        message = 'Gemini 回覆逾時，請檢查網路後再試。';
+      } else if (errorCode === 'api-not-enabled' || errorText.includes('api has not been used') || errorText.includes('not enabled')) {
+        message = '請先在 Firebase Console 的 AI Logic 啟用 Gemini Developer API。';
+      } else if (errorText.includes('firebasevertexai.googleapis.com') && (errorText.includes('blocked') || errorText.includes('api key'))) {
+        message = 'Firebase AI Logic API 被 API 金鑰限制擋下（403）；需在 Google Cloud API 金鑰限制中允許 Firebase AI Logic API。';
+      } else if (errorText.includes('app check') || errorText.includes('appcheck')) {
+        message = 'App Check 驗證未通過（403）；請確認 Firebase AI Logic 已使用有效的 reCAPTCHA Enterprise 網域金鑰。';
+      } else if (httpStatus === 403) {
+        message = 'Firebase 拒絕這次 Gemini 請求（403）；請確認 App Check 與 API 金鑰限制。';
+      } else if (httpStatus === 404) {
+        message = 'Firebase AI Logic 找不到目前的模型或專案設定（404）；請確認 AI Logic 已完成啟用。';
+      } else if (httpStatus >= 500 || errorText.includes('unavailable')) {
+        message = 'Google Gemini 服務目前較忙，請稍後再試。';
+      } else if (httpStatus === 400) {
+        message = 'Gemini 不接受這次請求格式（400）；請重新整理頁面後再試。';
+      } else if (errorCode === 'fetch-error' && !httpStatus) {
+        message = '瀏覽器無法連線到 Firebase AI Logic；請檢查網路、VPN 或內容阻擋設定。';
+      } else {
+        const diagnostic = [httpStatus ? `HTTP ${httpStatus}` : '', errorCode].filter(Boolean).join('，');
+        message = `Gemini 暫時無法提供建議${diagnostic ? `（${diagnostic}）` : ''}，請稍後再試。`;
+      }
       $('#geminiNote').textContent = message;
       toast(message);
       button.disabled = false;

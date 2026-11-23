@@ -1166,6 +1166,7 @@ function showRecommendations(gapStart, gapEnd) {
       $('#planPreview').innerHTML = aiRows;
       $('#geminiNote').textContent = generated.note || (currentRecommendationPlan[0]?.isNewTask ? '這是一項新待辦建議；確認加入後會同步到今日待辦。' : '已按預估時間排列，仍可依你的狀態調整。');
       $('#acceptPlan').disabled = !currentRecommendationPlan.length;
+      button.disabled = false;
       button.textContent = currentRecommendationPlan[0]?.isNewTask ? '✨ 再請 Gemini 想一項' : '✨ 再請 Gemini 挑一次';
     } catch (error) {
       clearTimeout(slowGeminiHintTimer);

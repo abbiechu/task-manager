@@ -17,6 +17,7 @@
 @media(max-width:480px){.auth-card{padding:29px 23px}.account-chip span{display:none}.topbar{gap:8px}}
 .sync-status{font-size:10px;color:#748579;white-space:nowrap}.sync-status.error{color:#b06e5c}.empty-tasks{padding:20px 0;text-align:center;color:var(--muted);font-size:12px}.profile{flex-wrap:wrap;justify-content:flex-end}.task-actions{display:flex;gap:4px}.task-action{background:transparent;color:#929890;padding:5px;border-radius:7px;font-size:11px}.task-action:hover{background:#f1f0eb;color:#526357}.task-action:disabled{opacity:.35;cursor:default}.recommend:disabled,.primary:disabled,.secondary:disabled{opacity:.5;cursor:not-allowed}.milestone .bar i{transition:width .35s ease}.action-hint{margin:8px 0 0;padding:10px 12px;border-radius:12px;background:#f4f2ec;color:#737c73;font-size:12px;line-height:1.55}.course.scheduled-task-row .course-block{background:var(--sage-light)}.course.scheduled-task-row.completed .course-name{text-decoration:line-through;color:var(--muted)}
 .milestone-rewards-link{margin-top:16px;padding:10px 12px;border-radius:12px;background:#f2f4ef;color:#6c8273;font-size:11px;font-weight:700;width:100%;text-align:left}.milestone-rewards-link:hover{background:var(--sage-light)}.modal{max-height:calc(100dvh - 36px);overflow-y:auto}.reward-summary{display:flex;gap:8px;margin:12px 0}.reward-summary span{flex:1;text-align:center;padding:10px 6px;border-radius:12px;background:#f3f1e9;color:#758678;font-size:11px}.reward-catalog-heading{margin:16px 2px 8px;font-size:12px;color:#778a7b}.reward-catalog-list{display:grid;gap:8px}.reward-catalog-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:9px;padding:11px;border-radius:14px;background:#f6f4ee}.reward-catalog-item.unlocked{background:#eaf0e9}.reward-catalog-emoji{font-size:24px;text-align:center}.reward-catalog-info strong{display:block;font-size:12px}.reward-catalog-info small{display:block;margin-top:4px;color:var(--muted);font-size:10px}.reward-catalog-progress{display:flex;align-items:center;gap:8px;margin-top:7px}.reward-catalog-progress .bar{height:5px;flex:1}.reward-catalog-progress .bar i{transition:width .35s ease}.reward-catalog-progress small{white-space:nowrap;margin:0}.reward-catalog-status{font-size:10px;color:var(--muted);white-space:nowrap}.reward-catalog-item.unlocked .reward-catalog-status{color:#607567;font-weight:700}
+.milestone-rewards-link{display:flex;align-items:center;gap:12px;min-height:70px;margin-top:16px;padding:13px 15px;border:1px solid #d8e2d8;border-radius:16px;background:linear-gradient(110deg,#e7eee7,#f2f3eb);color:#536b5a;font-size:13px;text-align:left;box-shadow:0 4px 12px rgba(74,99,79,.08);transition:transform .18s ease,box-shadow .18s ease}.milestone-rewards-link:hover{background:linear-gradient(110deg,#dfe9df,#ecefe4);transform:translateY(-1px);box-shadow:0 7px 16px rgba(74,99,79,.13)}.milestone-rewards-link:focus-visible{outline:3px solid #9bb39f;outline-offset:2px}.milestone-rewards-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:13px;background:#fffefa;font-size:23px}.milestone-rewards-copy{display:grid;gap:4px;min-width:0}.milestone-rewards-copy strong{font-size:13px}.milestone-rewards-copy small{font-size:10px;color:#748477;font-weight:500}.milestone-rewards-arrow{margin-left:auto;font-size:10px;white-space:nowrap;color:#728575}
 </style>
 </head>
 <body>
@@ -54,7 +55,7 @@
       <section class="card streak-card"><div class="streak-top"><div><div class="streak-num"><span id="streak">0</span><small> 天</small></div><div class="streak-copy">連續完成日</div></div><div class="streak-flame">🌤️</div></div><div class="week-dots" id="weekDots"></div></section>
       <div class="stat-grid"><div class="stat"><div class="stat-icon">🌱</div><strong id="weekDays">0 / 7</strong><span>本週完成天數</span></div><div class="stat"><div class="stat-icon">✨</div><strong id="taskTotal">0</strong><span>累積完成任務</span></div></div>
       <section class="card island-card"><div class="island-head"><h2>我的小島</h2><button class="edit" id="decorateBtn">佈置　↗</button></div><div class="island-scene"><div class="sun"></div><div class="hill one"></div><div class="hill two"></div><div class="plant" id="islandDecor">🪴</div><div class="island-pet" id="islandPet">🐻</div></div><div class="scene-caption"><span>熊熊的午後小島</span><span>等級 1 · 安心角落</span></div></section>
-      <section class="card milestone"><div class="milestone-title"><h2>慢慢累積的里程碑</h2><a id="journeyBtn">21 天練習 ↗</a></div><div class="milestone-progress"><div class="bar-top"><span id="petMilestoneLabel">收集小動物</span><span id="petMilestoneCount">0 / 5 天</span></div><div class="bar"><i id="petMilestoneBar" style="width:0%"></i></div></div><div class="reward"><div class="reward-icon" id="petMilestoneEmoji">🦊</div><div><strong id="petMilestoneName">小狐狸夥伴</strong><small id="petMilestoneHint">連續完成 5 天即可解鎖</small></div><span class="lock" id="petMilestoneLock">🔒</span></div><div class="milestone-progress"><div class="bar-top"><span id="decorMilestoneLabel">下一個裝飾</span><span id="decorMilestoneCount">0 / 1 天</span></div><div class="bar"><i id="decorMilestoneBar" style="width:0%;background:#c6a86c"></i></div></div><button class="milestone-rewards-link" id="rewardsCatalogBtn">看看全部小動物與擺設 ↗</button></section>
+      <section class="card milestone"><div class="milestone-title"><h2>慢慢累積的里程碑</h2><a id="journeyBtn">21 天練習 ↗</a></div><div class="milestone-progress"><div class="bar-top"><span id="petMilestoneLabel">收集小動物</span><span id="petMilestoneCount">0 / 3 天</span></div><div class="bar"><i id="petMilestoneBar" style="width:0%"></i></div></div><div class="reward"><div class="reward-icon" id="petMilestoneEmoji">🐱</div><div><strong id="petMilestoneName">橘貓夥伴</strong><small id="petMilestoneHint">連續完成 3 天即可解鎖</small></div><span class="lock" id="petMilestoneLock">🔒</span></div><div class="milestone-progress"><div class="bar-top"><span id="decorMilestoneLabel">下一個擺設</span><span id="decorMilestoneCount">0 / 1 天</span></div><div class="bar"><i id="decorMilestoneBar" style="width:0%;background:#c6a86c"></i></div></div><button class="milestone-rewards-link" id="rewardsCatalogBtn"><span class="milestone-rewards-icon">🎁</span><span class="milestone-rewards-copy"><strong>探索全部小島收藏</strong><small>10 種小動物・30 件擺設，逐步解鎖</small></span><span class="milestone-rewards-arrow">查看　↗</span></button></section>
     </aside>
   </main>
 </div>
@@ -245,13 +246,47 @@ let stopLiveSync = [];
 let importedCoursesPreview = [];
 const petRewards = [
   { id: 'bear', emoji: '🐻', name: '熊熊', days: 0 },
+  { id: 'cat', emoji: '🐱', name: '橘貓', days: 3 },
+  { id: 'hamster', emoji: '🐹', name: '倉鼠', days: 4 },
   { id: 'fox', emoji: '🦊', name: '小狐狸', days: 5 },
+  { id: 'dog', emoji: '🐶', name: '小狗狗', days: 5 },
+  { id: 'panda', emoji: '🐼', name: '熊貓', days: 6 },
+  { id: 'deer', emoji: '🦌', name: '小鹿', days: 7 },
+  { id: 'otter', emoji: '🦦', name: '水獺', days: 8 },
+  { id: 'squirrel', emoji: '🐿️', name: '松鼠', days: 9 },
   { id: 'rabbit', emoji: '🐰', name: '兔兔', days: 10 }
 ];
 const decorRewards = [
   { id: 'plant', emoji: '🪴', name: '小盆栽', days: 0 },
   { id: 'cloud', emoji: '☁️', name: '雲朵抱枕', days: 1 },
-  { id: 'flowers', emoji: '🌷', name: '小花束', days: 3 }
+  { id: 'flowers', emoji: '🌷', name: '小花束', days: 3 },
+  { id: 'stone', emoji: '🪨', name: '溪邊圓石', days: 5 },
+  { id: 'mushroom', emoji: '🍄', name: '蘑菇小屋', days: 7 },
+  { id: 'lantern', emoji: '🏮', name: '暖光燈籠', days: 9 },
+  { id: 'birdhouse', emoji: '🪺', name: '小鳥之家', days: 11 },
+  { id: 'fountain', emoji: '⛲', name: '迷你噴泉', days: 13 },
+  { id: 'swing', emoji: '🛝', name: '樹下鞦韆', days: 15 },
+  { id: 'hammock', emoji: '🪢', name: '午後吊床', days: 17 },
+  { id: 'windchime', emoji: '🎐', name: '微風風鈴', days: 19 },
+  { id: 'mailbox', emoji: '📮', name: '心情郵筒', days: 21 },
+  { id: 'picnic', emoji: '🧺', name: '野餐籃', days: 23 },
+  { id: 'steppingstones', emoji: '⚪', name: '月光石小徑', days: 25 },
+  { id: 'bench', emoji: '🪑', name: '森林長椅', days: 27 },
+  { id: 'flowerarch', emoji: '💐', name: '花花拱門', days: 29 },
+  { id: 'starlamp', emoji: '⭐', name: '星星夜燈', days: 31 },
+  { id: 'moonlamp', emoji: '🌙', name: '月亮燈', days: 33 },
+  { id: 'pond', emoji: '🪷', name: '荷葉池塘', days: 35 },
+  { id: 'cactus', emoji: '🌵', name: '迷你仙人掌', days: 37 },
+  { id: 'rainbow', emoji: '🌈', name: '雨後彩虹', days: 39 },
+  { id: 'shell', emoji: '🐚', name: '海邊貝殼', days: 41 },
+  { id: 'tree', emoji: '🌳', name: '小小樹屋', days: 43 },
+  { id: 'campfire', emoji: '🔥', name: '暖暖營火', days: 45 },
+  { id: 'teaset', emoji: '🍵', name: '花園茶具', days: 47 },
+  { id: 'wateringcan', emoji: '🚿', name: '澆花噴壺', days: 49 },
+  { id: 'birdfeeder', emoji: '🐦', name: '鳥兒食台', days: 51 },
+  { id: 'gardensign', emoji: '🪧', name: '小島路牌', days: 53 },
+  { id: 'rosepot', emoji: '🌹', name: '玫瑰花盆', days: 55 },
+  { id: 'crystal', emoji: '💎', name: '發光水晶', days: 57 }
 ];
 
 function offsetDate(dateKey, offset) {
@@ -400,7 +435,7 @@ function renderMilestones() {
   const nextDecor = decorRewards.slice(1).find(item => !ownedDecor.has(item.id));
   const petProgress = nextPet ? Math.min(streak, nextPet.days) : 10;
   const decorDays = activityDates.size;
-  const decorProgress = nextDecor ? Math.min(decorDays, nextDecor.days) : 3;
+  const decorProgress = nextDecor ? Math.min(decorDays, nextDecor.days) : 57;
 
   $('#petMilestoneLabel').textContent = nextPet ? `收集小動物・${nextPet.name}` : '小動物收藏已完成';
   $('#petMilestoneCount').textContent = nextPet ? `${petProgress} / ${nextPet.days} 天` : '全部解鎖';
@@ -1364,14 +1399,15 @@ function openRewardCatalog() {
     const requirement = item.days
       ? `${kind === 'pet' ? '連續' : '累積'}完成 ${item.days} 天`
       : '一開始就能擁有的收藏';
+    const remaining = Math.max(0, item.days - earnedDays);
     const progressText = item.days
-      ? (owned ? `已解鎖 ${item.days} / ${item.days} 天` : `目前 ${progress} / ${item.days} 天`)
+      ? (owned ? `已解鎖 ${item.days} / ${item.days} 天` : `目前 ${progress} / ${item.days} 天・再 ${remaining} 天`)
       : '已解鎖';
     return `<article class="reward-catalog-item${owned ? ' unlocked' : ''}"><div class="reward-catalog-emoji">${item.emoji}</div><div class="reward-catalog-info"><strong>${item.name}</strong><small>${requirement}</small><div class="reward-catalog-progress"><div class="bar"><i style="width:${percent}%;${kind === 'decor' ? 'background:#c6a86c' : ''}"></i></div><small>${progressText}</small></div></div><span class="reward-catalog-status">${owned ? '✓ 已擁有' : '🔒 未解鎖'}</span></article>`;
   }).join('');
   const pets = renderCatalog(petRewards, 'pet', ownedPets, streak);
   const decor = renderCatalog(decorRewards, 'decor', ownedDecor, activityDates.size);
-  openModal(`<div class="modal-head"><h2>小島收藏里程碑</h2><button class="close" data-close>×</button></div><p>每天完成今日所有待辦，就能累積完成日。小動物需要連續完成，擺設則會持續累積；解鎖不消耗點數。</p><div class="reward-summary"><span>🔥 目前連續 ${streak} 天</span><span>🌿 累積完成 ${activityDates.size} 天</span></div><h3 class="reward-catalog-heading">🐾 小動物・連續完成解鎖</h3><div class="reward-catalog-list">${pets}</div><h3 class="reward-catalog-heading">🪴 島嶼擺設・累積完成解鎖</h3><div class="reward-catalog-list">${decor}</div><button class="secondary" id="catalogDecorate">去佈置我的小島</button>`);
+  openModal(`<div class="modal-head"><h2>小島收藏里程碑</h2><button class="close" data-close>×</button></div><p>每天完成今日所有待辦，就能累積完成日。10 種小動物需連續完成 3–10 天；30 件擺設以累積完成日解鎖，初期 1 天可解鎖，之後約每 2 天再解鎖一件。收藏不消耗點數。</p><div class="reward-summary"><span>🔥 目前連續 ${streak} 天</span><span>🌿 累積完成 ${activityDates.size} 天</span></div><h3 class="reward-catalog-heading">🐾 小動物・連續完成解鎖</h3><div class="reward-catalog-list">${pets}</div><h3 class="reward-catalog-heading">🪴 30 件島嶼擺設・累積完成解鎖</h3><div class="reward-catalog-list">${decor}</div><button class="secondary" id="catalogDecorate">去佈置我的小島</button>`);
   $('#catalogDecorate').onclick = () => {
     closeModal();
     openCollection('pet');

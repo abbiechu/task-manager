@@ -133,10 +133,10 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
       });
       const firebaseAI = getAI(firebaseApp, { backend: new GoogleAIBackend() });
       geminiModel = getGenerativeModel(firebaseAI, {
-        model: 'gemini-3.8-flash',
+        model: 'gemini-3.5-flash-lite',
         generationConfig: {
-          maxOutputTokens: 192,
-          thinkingConfig: { thinkingLevel: 'LOW' },
+          maxOutputTokens: 128,
+          thinkingConfig: { thinkingLevel: 'MINIMAL' },
           responseMimeType: 'application/json',
           responseSchema: {
             type: 'OBJECT',
@@ -149,7 +149,7 @@ if (!firebaseConfig || !firebaseConfig.apiKey || !firebaseConfig.projectId || fi
             required: ['note']
           }
         }
-      });
+      }, { timeout: 90000 });
     }
     firebaseAuth = getAuth(firebaseApp);
     const googleProvider = new GoogleAuthProvider();
@@ -1077,13 +1077,16 @@ function showRecommendations(gapStart, gapEnd) {
     if (!geminiModel || !currentUser) { toast('請先完成 Firebase AI Logic 與 App Check 設定'); return; }
     button.disabled = true;
     button.textContent = 'Gemini 思考中…';
-    $('#geminiNote').textContent = availableTasks.length ? '正在依照空堂長度挑選合適的待辦…' : '正在依照空堂長度想一項新任務…';
+    $('#geminiNote').textContent = '正在確認今日可用次數…';
     let slowGeminiHintTimer;
+    let geminiStage = 'quota';
     try {
       const keyedTasks = availableTasks.map((task, index) => ({
         key: String(index), task, estimatedMinutes: estimateTaskMinutes(task)
-      }));
+      })).filter(item => item.estimatedMinutes <= gapMinutes).slice(0, 12);
       await consumeGeminiQuota();
+      geminiStage = 'generation';
+      $('#geminiNote').textContent = availableTasks.length ? '正在請 Gemini 挑選適合這段空堂的待辦…' : '正在請 Gemini 想一項適合空堂的新任務…';
       const prompt = availableTasks.length ? [
         '你是溫和、務實的繁體中文待辦安排助手。',
         '請只從候選任務挑選並排序適合在這段空堂完成的任務。',
@@ -1176,7 +1179,9 @@ function showRecommendations(gapStart, gapEnd) {
       else if (httpStatus === 429 || errorText.includes('resource-exhausted') || errorText.includes('quota') || errorText.includes('rate limit')) {
         message = 'Gemini 服務的免費額度或請求頻率限制暫時已達上限，請稍後再試，避免連續重按。';
       } else if (errorText.includes('deadline-exceeded') || errorText.includes('timeout')) {
-        message = 'Gemini 回覆逾時，請檢查網路後再試。';
+        message = geminiStage === 'quota'
+          ? '同步今日 Gemini 使用次數逾時，請檢查網路後再試。'
+          : 'Gemini 這次回覆逾時（等待上限 90 秒），請稍後再試；已切換至較快的 Flash-Lite 模型。';
       } else if (errorCode === 'api-not-enabled' || errorText.includes('api has not been used') || errorText.includes('not enabled')) {
         message = '請先在 Firebase Console 的 AI Logic 啟用 Gemini Developer API。';
       } else if (errorText.includes('firebasevertexai.googleapis.com') && (errorText.includes('blocked') || errorText.includes('api key'))) {

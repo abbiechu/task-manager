@@ -18,6 +18,7 @@
 .sync-status{font-size:10px;color:#748579;white-space:nowrap}.sync-status.error{color:#b06e5c}.empty-tasks{padding:20px 0;text-align:center;color:var(--muted);font-size:12px}.profile{flex-wrap:wrap;justify-content:flex-end}.task-actions{display:flex;gap:4px}.task-action{background:transparent;color:#929890;padding:5px;border-radius:7px;font-size:11px}.task-action:hover{background:#f1f0eb;color:#526357}.task-action:disabled{opacity:.35;cursor:default}.recommend:disabled,.primary:disabled,.secondary:disabled{opacity:.5;cursor:not-allowed}.milestone .bar i{transition:width .35s ease}.action-hint{margin:8px 0 0;padding:10px 12px;border-radius:12px;background:#f4f2ec;color:#737c73;font-size:12px;line-height:1.55}.course.scheduled-task-row .course-block{background:var(--sage-light)}.course.scheduled-task-row.completed .course-name{text-decoration:line-through;color:var(--muted)}
 .milestone-rewards-link{margin-top:16px;padding:10px 12px;border-radius:12px;background:#f2f4ef;color:#6c8273;font-size:11px;font-weight:700;width:100%;text-align:left}.milestone-rewards-link:hover{background:var(--sage-light)}.modal{max-height:calc(100dvh - 36px);overflow-y:auto}.reward-summary{display:flex;gap:8px;margin:12px 0}.reward-summary span{flex:1;text-align:center;padding:10px 6px;border-radius:12px;background:#f3f1e9;color:#758678;font-size:11px}.reward-catalog-heading{margin:16px 2px 8px;font-size:12px;color:#778a7b}.reward-catalog-list{display:grid;gap:8px}.reward-catalog-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:9px;padding:11px;border-radius:14px;background:#f6f4ee}.reward-catalog-item.unlocked{background:#eaf0e9}.reward-catalog-emoji{font-size:24px;text-align:center}.reward-catalog-info strong{display:block;font-size:12px}.reward-catalog-info small{display:block;margin-top:4px;color:var(--muted);font-size:10px}.reward-catalog-progress{display:flex;align-items:center;gap:8px;margin-top:7px}.reward-catalog-progress .bar{height:5px;flex:1}.reward-catalog-progress .bar i{transition:width .35s ease}.reward-catalog-progress small{white-space:nowrap;margin:0}.reward-catalog-status{font-size:10px;color:var(--muted);white-space:nowrap}.reward-catalog-item.unlocked .reward-catalog-status{color:#607567;font-weight:700}
 .milestone-rewards-link{display:flex;align-items:center;gap:12px;min-height:70px;margin-top:16px;padding:13px 15px;border:1px solid #d8e2d8;border-radius:16px;background:linear-gradient(110deg,#e7eee7,#f2f3eb);color:#536b5a;font-size:13px;text-align:left;box-shadow:0 4px 12px rgba(74,99,79,.08);transition:transform .18s ease,box-shadow .18s ease}.milestone-rewards-link:hover{background:linear-gradient(110deg,#dfe9df,#ecefe4);transform:translateY(-1px);box-shadow:0 7px 16px rgba(74,99,79,.13)}.milestone-rewards-link:focus-visible{outline:3px solid #9bb39f;outline-offset:2px}.milestone-rewards-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:13px;background:#fffefa;font-size:23px}.milestone-rewards-copy{display:grid;gap:4px;min-width:0}.milestone-rewards-copy strong{font-size:13px}.milestone-rewards-copy small{font-size:10px;color:#748477;font-weight:500}.milestone-rewards-arrow{margin-left:auto;font-size:10px;white-space:nowrap;color:#728575}
+.reward-shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.reward-shop-item{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;padding:13px 9px;border:1px solid var(--line);border-radius:16px;background:#faf9f4;text-align:center}.reward-shop-item.owned{background:#eaf0e9;border-color:#dbe5dc}.reward-shop-emoji{font-size:30px;line-height:1.2}.reward-shop-item strong{font-size:12px}.reward-shop-price{font-size:10px;color:#927b43;min-height:14px}.reward-shop-item.owned .reward-shop-price{color:#607567}.reward-shop-action{width:100%;min-height:34px;padding:7px 5px;border-radius:10px;background:var(--sage);color:white;font-size:10px;font-weight:700}.reward-shop-action:disabled{background:#e9e7df;color:#8c9189;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -55,7 +56,7 @@
       <section class="card streak-card"><div class="streak-top"><div><div class="streak-num"><span id="streak">0</span><small> 天</small></div><div class="streak-copy">連續完成日</div></div><div class="streak-flame">🌤️</div></div><div class="week-dots" id="weekDots"></div></section>
       <div class="stat-grid"><div class="stat"><div class="stat-icon">🌱</div><strong id="weekDays">0 / 7</strong><span>本週完成天數</span></div><div class="stat"><div class="stat-icon">✨</div><strong id="taskTotal">0</strong><span>累積完成任務</span></div></div>
       <section class="card island-card"><div class="island-head"><h2>我的小島</h2><button class="edit" id="decorateBtn">佈置　↗</button></div><div class="island-scene"><div class="sun"></div><div class="hill one"></div><div class="hill two"></div><div class="plant" id="islandDecor">🪴</div><div class="island-pet" id="islandPet">🐻</div></div><div class="scene-caption"><span>熊熊的午後小島</span><span>等級 1 · 安心角落</span></div></section>
-      <section class="card milestone"><div class="milestone-title"><h2>慢慢累積的里程碑</h2><a id="journeyBtn">21 天練習 ↗</a></div><div class="milestone-progress"><div class="bar-top"><span id="petMilestoneLabel">收集小動物</span><span id="petMilestoneCount">0 / 3 天</span></div><div class="bar"><i id="petMilestoneBar" style="width:0%"></i></div></div><div class="reward"><div class="reward-icon" id="petMilestoneEmoji">🐱</div><div><strong id="petMilestoneName">橘貓夥伴</strong><small id="petMilestoneHint">連續完成 3 天即可解鎖</small></div><span class="lock" id="petMilestoneLock">🔒</span></div><div class="milestone-progress"><div class="bar-top"><span id="decorMilestoneLabel">下一個擺設</span><span id="decorMilestoneCount">0 / 1 天</span></div><div class="bar"><i id="decorMilestoneBar" style="width:0%;background:#c6a86c"></i></div></div><button class="milestone-rewards-link" id="rewardsCatalogBtn"><span class="milestone-rewards-icon">🎁</span><span class="milestone-rewards-copy"><strong>探索全部小島收藏</strong><small>10 種小動物・30 件擺設，逐步解鎖</small></span><span class="milestone-rewards-arrow">查看　↗</span></button></section>
+      <section class="card milestone"><div class="milestone-title"><h2>慢慢累積的里程碑</h2><a id="journeyBtn">21 天練習 ↗</a></div><div class="milestone-progress"><div class="bar-top"><span id="petMilestoneLabel">小動物收藏</span><span id="petMilestoneCount">1 / 10 隻</span></div><div class="bar"><i id="petMilestoneBar" style="width:0%"></i></div></div><div class="reward"><div class="reward-icon" id="petMilestoneEmoji">🐱</div><div><strong id="petMilestoneName">橘貓兌換</strong><small id="petMilestoneHint">任選收藏兌換・120 點</small></div><span class="lock" id="petMilestoneLock">🔒</span></div><div class="milestone-progress"><div class="bar-top"><span id="decorMilestoneLabel">擺設收藏</span><span id="decorMilestoneCount">1 / 30 件</span></div><div class="bar"><i id="decorMilestoneBar" style="width:0%;background:#c6a86c"></i></div></div><button class="milestone-rewards-link" id="rewardsCatalogBtn"><span class="milestone-rewards-icon">🎁</span><span class="milestone-rewards-copy"><strong>使用點數挑選收藏</strong><small>10 種動物・30 件擺設・任選兌換</small></span><span class="milestone-rewards-arrow">查看　↗</span></button></section>
     </aside>
   </main>
 </div>
@@ -245,48 +246,48 @@ let courses = [];
 let stopLiveSync = [];
 let importedCoursesPreview = [];
 const petRewards = [
-  { id: 'bear', emoji: '🐻', name: '熊熊', days: 0 },
-  { id: 'cat', emoji: '🐱', name: '橘貓', days: 3 },
-  { id: 'hamster', emoji: '🐹', name: '倉鼠', days: 4 },
-  { id: 'fox', emoji: '🦊', name: '小狐狸', days: 5 },
-  { id: 'dog', emoji: '🐶', name: '小狗狗', days: 5 },
-  { id: 'panda', emoji: '🐼', name: '熊貓', days: 6 },
-  { id: 'deer', emoji: '🦌', name: '小鹿', days: 7 },
-  { id: 'otter', emoji: '🦦', name: '水獺', days: 8 },
-  { id: 'squirrel', emoji: '🐿️', name: '松鼠', days: 9 },
-  { id: 'rabbit', emoji: '🐰', name: '兔兔', days: 10 }
+  { id: 'bear', emoji: '🐻', name: '熊熊', pointsCost: 0 },
+  { id: 'cat', emoji: '🐱', name: '橘貓', pointsCost: 120 },
+  { id: 'hamster', emoji: '🐹', name: '倉鼠', pointsCost: 140 },
+  { id: 'fox', emoji: '🦊', name: '小狐狸', pointsCost: 160 },
+  { id: 'dog', emoji: '🐶', name: '小狗狗', pointsCost: 180 },
+  { id: 'panda', emoji: '🐼', name: '熊貓', pointsCost: 210 },
+  { id: 'deer', emoji: '🦌', name: '小鹿', pointsCost: 240 },
+  { id: 'otter', emoji: '🦦', name: '水獺', pointsCost: 270 },
+  { id: 'squirrel', emoji: '🐿️', name: '松鼠', pointsCost: 310 },
+  { id: 'rabbit', emoji: '🐰', name: '兔兔', pointsCost: 350 }
 ];
 const decorRewards = [
-  { id: 'plant', emoji: '🪴', name: '小盆栽', days: 0 },
-  { id: 'cloud', emoji: '☁️', name: '雲朵抱枕', days: 1 },
-  { id: 'flowers', emoji: '🌷', name: '小花束', days: 3 },
-  { id: 'stone', emoji: '🪨', name: '溪邊圓石', days: 5 },
-  { id: 'mushroom', emoji: '🍄', name: '蘑菇小屋', days: 7 },
-  { id: 'lantern', emoji: '🏮', name: '暖光燈籠', days: 9 },
-  { id: 'birdhouse', emoji: '🪺', name: '小鳥之家', days: 11 },
-  { id: 'fountain', emoji: '⛲', name: '迷你噴泉', days: 13 },
-  { id: 'swing', emoji: '🛝', name: '樹下鞦韆', days: 15 },
-  { id: 'hammock', emoji: '🪢', name: '午後吊床', days: 17 },
-  { id: 'windchime', emoji: '🎐', name: '微風風鈴', days: 19 },
-  { id: 'mailbox', emoji: '📮', name: '心情郵筒', days: 21 },
-  { id: 'picnic', emoji: '🧺', name: '野餐籃', days: 23 },
-  { id: 'steppingstones', emoji: '⚪', name: '月光石小徑', days: 25 },
-  { id: 'bench', emoji: '🪑', name: '森林長椅', days: 27 },
-  { id: 'flowerarch', emoji: '💐', name: '花花拱門', days: 29 },
-  { id: 'starlamp', emoji: '⭐', name: '星星夜燈', days: 31 },
-  { id: 'moonlamp', emoji: '🌙', name: '月亮燈', days: 33 },
-  { id: 'pond', emoji: '🪷', name: '荷葉池塘', days: 35 },
-  { id: 'cactus', emoji: '🌵', name: '迷你仙人掌', days: 37 },
-  { id: 'rainbow', emoji: '🌈', name: '雨後彩虹', days: 39 },
-  { id: 'shell', emoji: '🐚', name: '海邊貝殼', days: 41 },
-  { id: 'tree', emoji: '🌳', name: '小小樹屋', days: 43 },
-  { id: 'campfire', emoji: '🔥', name: '暖暖營火', days: 45 },
-  { id: 'teaset', emoji: '🍵', name: '花園茶具', days: 47 },
-  { id: 'wateringcan', emoji: '🚿', name: '澆花噴壺', days: 49 },
-  { id: 'birdfeeder', emoji: '🐦', name: '鳥兒食台', days: 51 },
-  { id: 'gardensign', emoji: '🪧', name: '小島路牌', days: 53 },
-  { id: 'rosepot', emoji: '🌹', name: '玫瑰花盆', days: 55 },
-  { id: 'crystal', emoji: '💎', name: '發光水晶', days: 57 }
+  { id: 'plant', emoji: '🪴', name: '小盆栽', pointsCost: 0 },
+  { id: 'cloud', emoji: '☁️', name: '雲朵抱枕', pointsCost: 20 },
+  { id: 'flowers', emoji: '🌷', name: '小花束', pointsCost: 30 },
+  { id: 'stone', emoji: '🪨', name: '溪邊圓石', pointsCost: 40 },
+  { id: 'mushroom', emoji: '🍄', name: '蘑菇小屋', pointsCost: 45 },
+  { id: 'lantern', emoji: '🏮', name: '暖光燈籠', pointsCost: 50 },
+  { id: 'birdhouse', emoji: '🪺', name: '小鳥之家', pointsCost: 55 },
+  { id: 'fountain', emoji: '⛲', name: '迷你噴泉', pointsCost: 60 },
+  { id: 'swing', emoji: '🛝', name: '樹下鞦韆', pointsCost: 65 },
+  { id: 'hammock', emoji: '🪢', name: '午後吊床', pointsCost: 70 },
+  { id: 'windchime', emoji: '🎐', name: '微風風鈴', pointsCost: 75 },
+  { id: 'mailbox', emoji: '📮', name: '心情郵筒', pointsCost: 80 },
+  { id: 'picnic', emoji: '🧺', name: '野餐籃', pointsCost: 85 },
+  { id: 'steppingstones', emoji: '⚪', name: '月光石小徑', pointsCost: 90 },
+  { id: 'bench', emoji: '🪑', name: '森林長椅', pointsCost: 95 },
+  { id: 'flowerarch', emoji: '💐', name: '花花拱門', pointsCost: 100 },
+  { id: 'starlamp', emoji: '⭐', name: '星星夜燈', pointsCost: 105 },
+  { id: 'moonlamp', emoji: '🌙', name: '月亮燈', pointsCost: 110 },
+  { id: 'pond', emoji: '🪷', name: '荷葉池塘', pointsCost: 115 },
+  { id: 'cactus', emoji: '🌵', name: '迷你仙人掌', pointsCost: 120 },
+  { id: 'rainbow', emoji: '🌈', name: '雨後彩虹', pointsCost: 125 },
+  { id: 'shell', emoji: '🐚', name: '海邊貝殼', pointsCost: 130 },
+  { id: 'tree', emoji: '🌳', name: '小小樹屋', pointsCost: 135 },
+  { id: 'campfire', emoji: '🔥', name: '暖暖營火', pointsCost: 140 },
+  { id: 'teaset', emoji: '🍵', name: '花園茶具', pointsCost: 145 },
+  { id: 'wateringcan', emoji: '🚿', name: '澆花噴壺', pointsCost: 150 },
+  { id: 'birdfeeder', emoji: '🐦', name: '鳥兒食台', pointsCost: 155 },
+  { id: 'gardensign', emoji: '🪧', name: '小島路牌', pointsCost: 160 },
+  { id: 'rosepot', emoji: '🌹', name: '玫瑰花盆', pointsCost: 165 },
+  { id: 'crystal', emoji: '💎', name: '發光水晶', pointsCost: 170 }
 ];
 
 function offsetDate(dateKey, offset) {
@@ -431,70 +432,21 @@ function normalizedUnlocks(values, catalog) {
 function renderMilestones() {
   const ownedPets = normalizedUnlocks(currentProfile.unlockedPets || ['bear'], petRewards);
   const ownedDecor = normalizedUnlocks(currentProfile.unlockedDecor || ['plant', '🪴'], decorRewards);
-  const nextPet = petRewards.slice(1).find(item => !ownedPets.has(item.id));
-  const nextDecor = decorRewards.slice(1).find(item => !ownedDecor.has(item.id));
-  const petProgress = nextPet ? Math.min(streak, nextPet.days) : 10;
-  const decorDays = activityDates.size;
-  const decorProgress = nextDecor ? Math.min(decorDays, nextDecor.days) : 57;
+  const nextPet = petRewards.filter(item => item.pointsCost > 0 && !ownedPets.has(item.id))
+    .sort((a, b) => a.pointsCost - b.pointsCost)[0];
+  const ownedPetCount = petRewards.filter(item => ownedPets.has(item.id)).length;
+  const ownedDecorCount = decorRewards.filter(item => ownedDecor.has(item.id)).length;
 
-  $('#petMilestoneLabel').textContent = nextPet ? `收集小動物・${nextPet.name}` : '小動物收藏已完成';
-  $('#petMilestoneCount').textContent = nextPet ? `${petProgress} / ${nextPet.days} 天` : '全部解鎖';
-  $('#petMilestoneBar').style.width = `${nextPet ? Math.round(petProgress / nextPet.days * 100) : 100}%`;
+  $('#petMilestoneLabel').textContent = '小動物收藏';
+  $('#petMilestoneCount').textContent = `${ownedPetCount} / ${petRewards.length} 隻`;
+  $('#petMilestoneBar').style.width = `${Math.round(ownedPetCount / petRewards.length * 100)}%`;
   $('#petMilestoneEmoji').textContent = nextPet?.emoji || '🐾';
-  $('#petMilestoneName').textContent = nextPet ? `${nextPet.name}夥伴` : '收集更多小動物';
-  $('#petMilestoneHint').textContent = nextPet ? `連續完成 ${nextPet.days} 天即可解鎖` : '你已收集目前所有小動物';
-  $('#petMilestoneLock').textContent = nextPet ? '🔒' : '✓';
-  $('#decorMilestoneLabel').textContent = nextDecor ? `下一個裝飾・${nextDecor.name}` : '裝飾收藏已完成';
-  $('#decorMilestoneCount').textContent = nextDecor ? `${decorProgress} / ${nextDecor.days} 天` : '全部解鎖';
-  $('#decorMilestoneBar').style.width = `${nextDecor ? Math.round(decorProgress / nextDecor.days * 100) : 100}%`;
-}
-
-async function unlockReachedRewards() {
-  if (!currentUser || !activityDates.size) return;
-  const orderedDays = [...activityDates].sort();
-  let currentRun = 0, bestRun = 0, previousDay = '';
-  orderedDays.forEach(day => {
-    currentRun = previousDay && offsetDate(previousDay, 1) === day ? currentRun + 1 : 1;
-    bestRun = Math.max(bestRun, currentRun);
-    previousDay = day;
-  });
-  const eligiblePets = petRewards.filter(item => item.days > 0 && bestRun >= item.days).map(item => item.id);
-  const eligibleDecor = decorRewards.filter(item => item.days > 0 && activityDates.size >= item.days).map(item => item.id);
-  let newlyUnlocked = [];
-  try {
-    const updatedProfile = await runTransaction(db, async transaction => {
-      const snapshot = await transaction.get(profileRef());
-      const profile = snapshot.exists() ? snapshot.data() : {};
-      const pets = normalizedUnlocks(profile.unlockedPets || ['bear'], petRewards);
-      const decor = normalizedUnlocks(profile.unlockedDecor || ['plant', '🪴'], decorRewards);
-      const freshPets = eligiblePets.filter(id => !pets.has(id));
-      const freshDecor = eligibleDecor.filter(id => !decor.has(id));
-      newlyUnlocked = [
-        ...freshPets.map(id => petRewards.find(item => item.id === id)),
-        ...freshDecor.map(id => decorRewards.find(item => item.id === id))
-      ].filter(Boolean);
-      const petIds = [...new Set([...pets, ...eligiblePets])];
-      const decorIds = [...new Set([...decor, ...eligibleDecor])];
-      if (freshPets.length || freshDecor.length) {
-        transaction.set(profileRef(), {
-          unlockedPets: petIds,
-          unlockedDecor: decorIds,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-      }
-      return { unlockedPets: petIds, unlockedDecor: decorIds };
-    });
-    currentProfile.unlockedPets = updatedProfile.unlockedPets;
-    currentProfile.unlockedDecor = updatedProfile.unlockedDecor;
-    renderMilestones();
-    if (newlyUnlocked.length) {
-      celebrate();
-      toast(`新的小夥伴／裝飾已解鎖：${newlyUnlocked.map(item => item.name).join('、')} ✨`);
-    }
-  } catch (error) {
-    console.error('Milestone reward sync failed', error);
-    setSyncStatus('獎勵同步失敗', true);
-  }
+  $('#petMilestoneName').textContent = nextPet ? `${nextPet.name}兌換` : '動物收藏完成';
+  $('#petMilestoneHint').textContent = nextPet ? `任選收藏兌換・${nextPet.pointsCost} 點` : '已收集全部小動物';
+  $('#petMilestoneLock').textContent = nextPet ? '🪙' : '✓';
+  $('#decorMilestoneLabel').textContent = '擺設收藏';
+  $('#decorMilestoneCount').textContent = `${ownedDecorCount} / ${decorRewards.length} 件`;
+  $('#decorMilestoneBar').style.width = `${Math.round(ownedDecorCount / decorRewards.length * 100)}%`;
 }
 
 function renderWeekSummary() {
@@ -622,7 +574,6 @@ async function refreshActivityStats() {
     console.error('Activity stats save failed', error);
     setSyncStatus('同步失敗', true);
   }
-  await unlockReachedRewards();
 }
 
 async function loadCloudData(user) {
@@ -1353,65 +1304,101 @@ async function saveAppearance(field, value) {
   currentProfile[field] = value;
 }
 
-$('#decorateBtn').onclick = () => openCollection('pet');
-function openCollection(tab) {
-  const pet = tab === 'pet';
+$('#decorateBtn').onclick = () => openRewardCatalog('pet');
+function openRewardCatalog(tab = 'pet') {
+  const kind = tab === 'decor' ? 'decor' : 'pet';
+  const catalog = kind === 'pet' ? petRewards : decorRewards;
+  const equippedField = kind === 'pet' ? 'equippedPet' : 'equippedDecor';
+  const equippedTarget = kind === 'pet' ? '#islandPet' : '#islandDecor';
   const ownedPets = normalizedUnlocks(currentProfile.unlockedPets || ['bear'], petRewards);
   const ownedDecor = normalizedUnlocks(currentProfile.unlockedDecor || ['plant', '🪴'], decorRewards);
-  const catalog = pet ? petRewards : decorRewards;
-  const earnedDays = pet ? streak : activityDates.size;
-  const kind = pet ? 'pet' : 'decor';
+  const ownedItems = kind === 'pet' ? ownedPets : ownedDecor;
+  const ownedPetCount = petRewards.filter(item => ownedPets.has(item.id)).length;
+  const ownedDecorCount = decorRewards.filter(item => ownedDecor.has(item.id)).length;
   const cards = catalog.map(item => {
-    const owned = (pet ? ownedPets : ownedDecor).has(item.id);
-    const requirement = item.days ? (pet ? `連續完成 ${item.days} 天` : `累積完成 ${item.days} 天`) : '已擁有';
+    const owned = ownedItems.has(item.id);
+    const affordable = points >= item.pointsCost;
     const action = owned
-      ? `<button class="use-item" data-kind="${kind}" data-emoji="${item.emoji}">放進小島</button>`
-      : `<button disabled>🔒 ${Math.min(earnedDays, item.days)} / ${item.days} 天</button>`;
-    return `<div class="collect-item ${owned ? 'owned' : ''}"><div class="emoji">${item.emoji}</div><b>${item.name}</b><small>${owned ? '已解鎖' : requirement}</small>${action}</div>`;
+      ? `<button class="reward-shop-action reward-shop-equip" data-reward-id="${item.id}">放進小島</button>`
+      : `<button class="reward-shop-action reward-shop-redeem" data-reward-id="${item.id}" ${affordable ? '' : 'disabled'}>${affordable ? `兌換 ${item.pointsCost} 點` : `還差 ${item.pointsCost - points} 點`}</button>`;
+    return `<article class="reward-shop-item${owned ? ' owned' : ''}"><div class="reward-shop-emoji">${item.emoji}</div><strong>${item.name}</strong><span class="reward-shop-price">${owned ? '已收藏' : `🪙 ${item.pointsCost} 點`}</span>${action}</article>`;
   }).join('');
-  openModal(`<div class="modal-head"><h2>佈置我的小島</h2><button class="close" data-close>×</button></div><p>小動物會在連續完成日解鎖，裝飾物會在累積完成日解鎖。已解鎖的收藏可以隨時更換。</p><div class="tabs"><button class="${pet ? 'selected' : ''}" id="petTab">小動物</button><button class="${!pet ? 'selected' : ''}" id="decorTab">裝飾物</button></div><div class="collection-grid">${cards}</div><button class="secondary" data-close>完成</button>`);
-  $('#petTab').onclick = () => openCollection('pet');
-  $('#decorTab').onclick = () => openCollection('decor');
-  $$('.use-item').forEach(button => button.onclick = async () => {
-    const kind = button.dataset.kind;
-    const field = kind === 'pet' ? 'equippedPet' : 'equippedDecor';
-    const target = kind === 'pet' ? '#islandPet' : '#islandDecor';
+  openModal(`<div class="modal-head"><h2>小島收藏商店</h2><button class="close" data-close>×</button></div><p>目前有 <strong>${points} 點</strong>。選喜歡的收藏兌換，點數足夠就能直接選，不必照順序。兌換後可放進小島。</p><div class="tabs"><button class="${kind === 'pet' ? 'selected' : ''}" id="petTab">🐾 小動物 ${ownedPetCount}/${petRewards.length}</button><button class="${kind === 'decor' ? 'selected' : ''}" id="decorTab">🪴 擺設 ${ownedDecorCount}/${decorRewards.length}</button></div><div class="reward-shop-grid">${cards}</div><button class="secondary" data-close>完成</button>`);
+  $('#petTab').onclick = () => openRewardCatalog('pet');
+  $('#decorTab').onclick = () => openRewardCatalog('decor');
+  $$('.reward-shop-redeem').forEach(button => button.onclick = async () => {
+    const reward = catalog.find(item => item.id === button.dataset.rewardId);
+    if (!reward) return;
+    button.disabled = true;
+    button.textContent = '兌換中…';
+    await redeemReward(kind, reward);
+  });
+  $$('.reward-shop-equip').forEach(button => button.onclick = async () => {
+    const reward = catalog.find(item => item.id === button.dataset.rewardId);
+    if (!reward) return;
+    button.disabled = true;
     try {
-      await saveAppearance(field, button.dataset.emoji);
-      $(target).textContent = button.dataset.emoji;
+      await saveAppearance(equippedField, reward.emoji);
+      $(equippedTarget).textContent = reward.emoji;
       closeModal();
       setSyncStatus('雲端已同步');
-      toast('小島佈置已儲存 ✨');
+      toast(`${reward.name}已放進小島 ✨`);
     } catch (error) {
       console.error('Decoration selection failed', error);
       setSyncStatus('同步失敗', true);
       toast('佈置儲存失敗，請稍後重試');
+      button.disabled = false;
     }
   });
 }
-function openRewardCatalog() {
-  const ownedPets = normalizedUnlocks(currentProfile.unlockedPets || ['bear'], petRewards);
-  const ownedDecor = normalizedUnlocks(currentProfile.unlockedDecor || ['plant', '🪴'], decorRewards);
-  const renderCatalog = (catalog, kind, ownedItems, earnedDays) => catalog.map(item => {
-    const owned = ownedItems.has(item.id);
-    const progress = owned ? item.days : Math.min(earnedDays, item.days);
-    const percent = item.days ? Math.round(progress / item.days * 100) : 100;
-    const requirement = item.days
-      ? `${kind === 'pet' ? '連續' : '累積'}完成 ${item.days} 天`
-      : '一開始就能擁有的收藏';
-    const remaining = Math.max(0, item.days - earnedDays);
-    const progressText = item.days
-      ? (owned ? `已解鎖 ${item.days} / ${item.days} 天` : `目前 ${progress} / ${item.days} 天・再 ${remaining} 天`)
-      : '已解鎖';
-    return `<article class="reward-catalog-item${owned ? ' unlocked' : ''}"><div class="reward-catalog-emoji">${item.emoji}</div><div class="reward-catalog-info"><strong>${item.name}</strong><small>${requirement}</small><div class="reward-catalog-progress"><div class="bar"><i style="width:${percent}%;${kind === 'decor' ? 'background:#c6a86c' : ''}"></i></div><small>${progressText}</small></div></div><span class="reward-catalog-status">${owned ? '✓ 已擁有' : '🔒 未解鎖'}</span></article>`;
-  }).join('');
-  const pets = renderCatalog(petRewards, 'pet', ownedPets, streak);
-  const decor = renderCatalog(decorRewards, 'decor', ownedDecor, activityDates.size);
-  openModal(`<div class="modal-head"><h2>小島收藏里程碑</h2><button class="close" data-close>×</button></div><p>每天完成今日所有待辦，就能累積完成日。10 種小動物需連續完成 3–10 天；30 件擺設以累積完成日解鎖，初期 1 天可解鎖，之後約每 2 天再解鎖一件。收藏不消耗點數。</p><div class="reward-summary"><span>🔥 目前連續 ${streak} 天</span><span>🌿 累積完成 ${activityDates.size} 天</span></div><h3 class="reward-catalog-heading">🐾 小動物・連續完成解鎖</h3><div class="reward-catalog-list">${pets}</div><h3 class="reward-catalog-heading">🪴 30 件島嶼擺設・累積完成解鎖</h3><div class="reward-catalog-list">${decor}</div><button class="secondary" id="catalogDecorate">去佈置我的小島</button>`);
-  $('#catalogDecorate').onclick = () => {
-    closeModal();
-    openCollection('pet');
-  };
+async function redeemReward(kind, reward) {
+  const catalog = kind === 'pet' ? petRewards : decorRewards;
+  const field = kind === 'pet' ? 'unlockedPets' : 'unlockedDecor';
+  const defaults = kind === 'pet' ? ['bear'] : ['plant', '🪴'];
+  try {
+    const result = await runTransaction(db, async transaction => {
+      const snapshot = await transaction.get(profileRef());
+      const profile = snapshot.exists() ? snapshot.data() : {};
+      const balance = Number(profile.points) || 0;
+      const owned = normalizedUnlocks(profile[field] || defaults, catalog);
+      if (owned.has(reward.id)) return { alreadyOwned: true, points: balance };
+      if (balance < reward.pointsCost) return { insufficient: true, points: balance };
+      const ownedItems = [...new Set([...owned, reward.id])];
+      const nextPoints = balance - reward.pointsCost;
+      transaction.set(profileRef(), {
+        points: nextPoints,
+        [field]: ownedItems,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+      return { points: nextPoints, ownedItems };
+    });
+    if (result.alreadyOwned) {
+      toast('這項收藏已經在你的小島了');
+      openRewardCatalog(kind);
+      return;
+    }
+    points = result.points;
+    currentProfile.points = points;
+    if (result.ownedItems) currentProfile[field] = result.ownedItems;
+    updateCounters();
+    renderMilestones();
+    persist();
+    if (result.insufficient) {
+      setSyncStatus('雲端已同步');
+      toast(`還差 ${Math.max(0, reward.pointsCost - points)} 點就能兌換${reward.name}`);
+      openRewardCatalog(kind);
+      return;
+    }
+    setSyncStatus('雲端已同步');
+    celebrate();
+    toast(`兌換成功：${reward.name}，使用 ${reward.pointsCost} 點 ✨`);
+    openRewardCatalog(kind);
+  } catch (error) {
+    console.error('Reward redemption failed', error);
+    setSyncStatus('同步失敗', true);
+    toast('兌換沒有完成，請確認網路後再試');
+    openRewardCatalog(kind);
+  }
 }
 $('#rewardsCatalogBtn').onclick = openRewardCatalog;
 $('#journeyBtn').onclick=()=>{

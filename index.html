@@ -22,6 +22,54 @@
 .island-pet,.plant{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;z-index:3}.island-pet{left:47%;top:60%;right:auto;bottom:auto;transform:translate(-50%,-50%)}.plant{left:74%;top:72%;right:auto;bottom:auto;transform:translate(-50%,-50%)}.island-pet.island-dragging,.plant.island-dragging{cursor:grabbing;animation:none}.island-pet:focus-visible,.plant:focus-visible{outline:2px solid #718879;outline-offset:4px;border-radius:8px}@keyframes bob{50%{translate:0 -7px}}
 .island-head>div{display:grid;gap:3px}.island-head small{font-size:10px;color:var(--muted)}.scene-selector{display:flex;gap:7px;overflow-x:auto;padding:12px 15px 3px;scrollbar-width:thin}.scene-selector button{flex:1 0 auto;min-width:90px;padding:9px 11px;border-radius:12px;background:#f4f2ec;color:#747e75;font-size:11px;font-weight:600;white-space:nowrap}.scene-selector button.selected{background:#e5ebe5;color:#536b5a;box-shadow:inset 0 0 0 1px #d5e0d6}.island-scene{height:320px;margin:10px 15px 0;overflow:hidden;isolation:isolate;transition:background .25s ease}.island-scene.scene-outdoor{background:linear-gradient(180deg,#dce9eb 0%,#e9eee5 65%,#dce5d4 100%)}.island-scene.scene-park{background:radial-gradient(ellipse at 14% 88%,#a5bc9d 0 17%,transparent 17.5%),radial-gradient(ellipse at 86% 92%,#a9c29f 0 21%,transparent 21.5%),linear-gradient(180deg,#dce9df 0%,#edf0e4 63%,#d1dfce 100%)}.island-scene.scene-room{background:linear-gradient(180deg,#e8e5df 0%,#f3e9df 72%,#cbb8a6 72%)}.island-scene.scene-classroom{background:linear-gradient(180deg,#e4e9e2 0%,#f0eee3 72%,#cdbda9 72%)}.scene-landmark{position:absolute;z-index:1;left:7%;top:10%;font-size:37px;letter-spacing:3px;opacity:.86;pointer-events:none;white-space:nowrap;filter:drop-shadow(0 4px 3px #64756820)}.scene-ground{position:absolute;z-index:0;left:-8%;right:-8%;bottom:-34%;height:69%;border-radius:50% 50% 0 0;background:#bdcfb9}.scene-park .scene-ground{background:#b8cfb0}.scene-room .scene-ground,.scene-classroom .scene-ground{left:0;right:0;bottom:0;height:23%;border-radius:0;background:linear-gradient(180deg,#d2c2b1,#b9a38e)}.scene-window{display:none;position:absolute;right:12%;top:11%;width:86px;height:90px;border:7px solid #fffaf1;border-radius:9px;background:linear-gradient(145deg,#cde2e5 0 48%,#e5eddf 49%);box-shadow:0 3px 9px #67726720}.scene-room .scene-window{display:block}.scene-window:before,.scene-window:after{content:'';position:absolute;background:#fffaf1}.scene-window:before{left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%)}.scene-window:after{top:50%;left:0;right:0;height:5px;transform:translateY(-50%)}.scene-board{display:none;position:absolute;right:9%;top:9%;width:37%;height:82px;border:7px solid #b38e6c;border-radius:9px;background:#81988b;color:#fff8e9;font-size:12px;font-weight:700;text-align:center;padding:17px 4px;box-shadow:0 4px 9px #67726720}.scene-classroom .scene-board{display:block}.scene-classroom .scene-landmark{left:9%;top:15%;font-size:32px}.scene-room .scene-landmark{left:10%;top:15%;font-size:32px}.scene-park .scene-landmark{left:7%;top:9%;font-size:42px}.scene-decor-layer{position:absolute;inset:0;z-index:3;pointer-events:none}.island-pet,.island-decor-item{position:absolute;display:grid;place-items:center;transform:translate(-50%,-50%);touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;z-index:4;filter:drop-shadow(0 5px 4px #52665738);line-height:1}.island-pet{font-size:55px;animation:bob 3s ease-in-out infinite}.island-decor-item{font-size:43px;z-index:3;pointer-events:auto}.island-pet.island-dragging,.island-decor-item.island-dragging{cursor:grabbing;animation:none}.island-pet:focus-visible,.island-decor-item:focus-visible{outline:2px solid #718879;outline-offset:7px;border-radius:12px}.island-pet[hidden]{display:none}.scene-caption{gap:10px;align-items:center}.scene-caption span:last-child{text-align:right}.decor-inventory-heading{margin:14px 1px 7px;font-size:12px;font-weight:700;color:#68796c}.decor-inventory-list{display:grid;gap:7px;max-height:225px;overflow:auto;padding:1px}.decor-inventory-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;background:#f6f4ee}.decor-inventory-item>span:first-child{font-size:23px;text-align:center}.decor-inventory-info{min-width:0}.decor-inventory-info strong,.decor-inventory-info small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.decor-inventory-info strong{font-size:11px}.decor-inventory-info small{margin-top:3px;color:var(--muted);font-size:9px}.decor-inventory-item button{padding:8px;border-radius:9px;background:#84978b;color:#fff;font-size:10px;white-space:nowrap}.decor-inventory-item button.secondary-action{background:#e9e7df;color:#667169}.reward-shop-item .reward-shop-owned-count{font-size:9px;color:#718477;min-height:12px}.reward-shop-item .reward-shop-action{margin-top:auto}.reward-shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:46vh;overflow:auto;padding:2px}.reward-shop-item{min-height:153px}.reward-shop-emoji{font-size:34px}.reward-summary .scene-summary{background:#e8eee7;color:#617565}.scene-empty-hint{position:absolute;z-index:1;left:50%;top:55%;transform:translate(-50%,-50%);padding:8px 11px;border-radius:12px;background:#fffefaaf;color:#738074;font-size:10px;white-space:nowrap;pointer-events:none}.scene-empty-hint[hidden]{display:none}
 @media(max-width:520px){.island-scene{height:285px;margin-left:11px;margin-right:11px}.island-head{padding-left:16px;padding-right:16px}.scene-selector{padding-left:11px;padding-right:11px}.scene-selector button{min-width:82px;padding:9px 8px;font-size:10px}.scene-window{width:68px;height:72px;right:9%;top:13%}.scene-board{height:66px;top:10%;right:7%;width:41%;padding:12px 2px;font-size:10px}.scene-landmark{font-size:31px}.island-pet{font-size:49px}.island-decor-item{font-size:38px}.reward-shop-item{padding:11px 7px;min-height:146px}.reward-shop-action{font-size:9px}}
+
+/* Readability: keep supporting text comfortable to scan on phones and desktop. */
+.section-label{font-size:12px}
+.task-action{font-size:12px;padding:7px}
+.progress-ring span{font-size:11px}
+.account-chip span{font-size:12px}
+.reward-catalog-info strong{font-size:14px}
+.reward-catalog-info small,.reward-catalog-status,.reward-catalog-progress small{font-size:12px}
+
+:root{--muted:#747c75}
+.sync-status{font-size:11px}
+.task-meta,.points,.time,.course-sub,.bar-top,.milestone-title a,.streak-copy,.stat span,.scene-caption,.island-head small,.edit,.day-cell span,.tag,.recommend,.week-dot{font-size:12px}
+.streak-copy{font-size:13px}
+.modal p{font-size:15px;line-height:1.7}
+.reward strong{font-size:13px}
+.reward small,.milestone-rewards-copy small,.milestone-rewards-arrow{font-size:12px}
+.scene-selector button{font-size:12px}
+.reward-summary span{font-size:12px}
+.reward-shop-item strong{font-size:14px;line-height:1.4}
+.reward-shop-owned-count{font-size:12px;min-height:16px}
+.reward-shop-price{font-size:12px;min-height:17px}
+.reward-shop-action{font-size:12px;min-height:40px;line-height:1.35;padding:8px 6px}
+.decor-inventory-info strong{font-size:13px}
+.decor-inventory-info small{font-size:11px;line-height:1.4}
+.decor-inventory-item button{font-size:11px;min-height:38px}
+@media(max-width:520px){
+  .greeting .date,.date-pill{font-size:13px}
+  .greeting p{font-size:15px;line-height:1.55}
+  .task-title{font-size:15px;line-height:1.45}
+  .task-meta,.points,.time,.course-sub,.tag,.recommend,.day-cell span{font-size:12px}
+  .course-name{font-size:14px}
+  .free-time{font-size:13px;line-height:1.5}
+  .week-dot{font-size:11px}
+  .stat span{font-size:12px;line-height:1.4}
+  .island-head small,.edit,.scene-caption,.scene-selector button{font-size:12px}
+  .bar-top,.milestone-title a{font-size:12px}
+  .reward strong{font-size:14px}
+  .reward small,.milestone-rewards-copy small{font-size:12px;line-height:1.45}
+  .modal p{font-size:15px;line-height:1.7}
+  .input-row label{font-size:13px}
+  .input-row input,.input-row select{font-size:15px;min-height:44px}
+  .reward-shop-item{min-height:160px}
+  .reward-shop-item strong{font-size:13px}
+  .reward-shop-owned-count,.reward-shop-price{font-size:11px}
+  .reward-shop-action{font-size:12px;min-height:42px}
+  .decor-inventory-info strong{font-size:12px}
+  .decor-inventory-info small{font-size:11px}
+}
 </style>
 </head>
 <body>
